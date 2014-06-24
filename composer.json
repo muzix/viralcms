@@ -3,8 +3,14 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
+	"repositories": [
+        {
+            "type": "vcs",
+            "url": "http://github.com/muzix/framework"
+        }
+    ],
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "dev-bug/illuminate"
 	},
 	"autoload": {
 		"classmap": [
@@ -32,5 +38,5 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "dev"
 }

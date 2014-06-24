@@ -14,7 +14,8 @@
 		"barryvdh/laravel-cors": "dev-master",
 		"laravelbook/ardent": "dev-master",
 		"zizaco/confide": "3.2.x",
-		"zizaco/entrust": "dev-master"
+		"zizaco/entrust": "dev-master",
+		"codesleeve/asset-pipeline": "dev-master"
 	},
 	"require-dev": {
 		"way/generators": "2.*"

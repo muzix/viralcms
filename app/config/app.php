@@ -125,6 +125,7 @@ return array(
 		'Barryvdh\Cors\CorsServiceProvider',
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
+		'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
 	),
 
 	/*

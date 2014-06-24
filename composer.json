@@ -10,7 +10,14 @@
         }
     ],
 	"require": {
-		"laravel/framework": "dev-bug/illuminate"
+		"laravel/framework": "4.1.*",
+		"barryvdh/laravel-cors": "dev-master",
+		"laravelbook/ardent": "dev-master",
+		"zizaco/confide": "3.2.x",
+		"zizaco/entrust": "dev-master"
+	},
+	"require-dev": {
+		"way/generators": "2.*"
 	},
 	"autoload": {
 		"classmap": [

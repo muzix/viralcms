@@ -43,6 +43,78 @@ class StackController extends \BaseController {
         }
 	}
 
+	public function create()
+	{
+		if (Auth::guest()) {
+			echo "NotLogged";
+			return;
+		}
+		$fromId = Input::get('fromId', '');
+		$toId = Input::get('toId', '');
+		$toName = Input::get('toName', '');
+		$code = uniqid();
+
+		// check if toId exist in facebook
+		$search = json_decode($this->curl_get_contents("https://graph.facebook.com/$toId"));
+ 
+		if(!isset($search->id))
+		{
+			echo "NotExist";
+			return;
+		}
+
+		$invitations = Invitation::where('from_id', $fromId)->get();
+		$invitationArr = $invitations->toArray();
+		$exist = false;
+		if (count($invitationArr) > 0) {
+			foreach($invitationArr as $invite) {
+				if ($invite['to_id'] == $toId) {
+					$exist = true;
+					break;
+				}
+			}
+		}
+
+		if ($exist) {
+			echo "Exist";
+			return;
+		}
+
+		$invitation = new Invitation;
+
+		$invitation->from_id = $fromId;
+		$invitation->to_id = $toId;
+		$invitation->to_name = $toName;
+		$invitation->code = $code;
+
+		$invitation->save();
+
+		if ($invitation->id) {
+			echo $code;
+		} else {
+			echo "Exist";
+		}
+	}
+
+	function curl_get_contents($url)
+	{
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		$data = curl_exec($ch);
+		curl_close($ch);
+		return $data;
+	}
+
+	public function lists()
+	{
+		$id = Input::get('id', '');
+		$invitations = Invitation::where('from_id', $id)->get();
+		return $invitations;
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 * GET /stack
@@ -54,16 +126,6 @@ class StackController extends \BaseController {
 		//
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 * GET /stack/create
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -86,6 +148,7 @@ class StackController extends \BaseController {
 	public function show($id)
 	{
 		//
+		
 	}
 
 	/**

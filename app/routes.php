@@ -104,6 +104,11 @@ Route::get('event/invite/', 'StackController@invite');
 Route::post('event/invite/', 'StackController@invite');
 Route::post('user/autocreate/', 'UserController@autocreate');
 Route::get('user/autocreate/', 'UserController@autocreate');
+Route::post('invitation/create/', 'StackController@create');
+Route::get('invitation/create/', 'StackController@create');
+Route::get('invitation/lists', 'StackController@lists');
+Route::get('image/create', 'ImageController@create');
+Route::post('image/create', 'ImageController@create');
 
 // Confide routes
 Route::get( 'user/create',                 'UserController@create');

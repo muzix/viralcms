@@ -82,3 +82,8 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+Route::filter('image', function($response)
+{
+    $response->header('content-type', 'image/jpg');
+});

@@ -148,7 +148,7 @@ function doInviteFriend() {
 	});
 }
 
-function doInviteFriendById(friendId) {
+function doInviteFriendById(friendId, friendName) {
     var str_to = friendId + ',';
     var mes = "Cơ hội nhận vé xem phim Deliver us from evil miễn phí!";
     FB.ui({method: 'apprequests',
@@ -160,8 +160,25 @@ function doInviteFriendById(friendId) {
             //TODO
 
         } else {
-            alert("Bạn chưa gửi lời mời!");
+            alert("Bạn chưa gửi lời mời !!!");
+            doGetInviteCode(friendId, friendName);
         }
+    });
+}
+
+function doGetInviteCode(friendId, friendName) {
+	$.ajax({
+		url: "//test.secure.dev/invitation/create",
+		type: "POST",//Mặc định là GET
+		data: {fromId:FacebookData.uid, toId:friendId, toName:friendName},
+		success:function(data, textStatus, jqXHR)
+		{
+			alert(data);
+		},
+		error:function(jqXHR, textStatus, errorThrown)
+		{
+			alert('Server quá tải, xin bạn vui lòng thử lại');
+		}
     });
 }
 
@@ -282,14 +299,54 @@ function doPostDataToServer(fileName) {
 //Start load fb info
 loadFacebookInfo();
 
+function zfill1(number, size) {
+	number = number.toString();
+	while (number.length < size) number = "0" + number;
+	return number;
+}
+
 $( document ).ready(function() {
     $('button#button-invite').click(function() {
-        var friendId = $('select#planets').find(":selected").attr('id');
+        var friendNode = $('select#planets').find(":selected");
+        var friendId = friendNode.attr('id');
+        var friendName = friendNode.html();
         if (friendId !== undefined) {
-            doInviteFriendById(friendId);
+            doInviteFriendById(friendId, friendName);
         } else {
             alert ("Bạn chưa chọn người bạn nào!");
         }
 
     });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	  	var target = $(e.target).attr("href") // activated tab
+	 	if(target == '#profile') {
+	 		$.ajax({
+				url: "//test.secure.dev/invitation/lists",
+				type: "GET",//Mặc định là GET
+				data: {id:FacebookData.uid},
+				success:function(data, textStatus, jqXHR)
+				{
+					var html = '';
+					var count = 1;
+					$.each(data,function(index, invitation) {
+		                html = 
+		                html 
+		                + "<tr>"  
+		                + "<td>" + count + "</td>"
+		                + "<td><a target='_blank' href='https://www.facebook.com/" + invitation.to_id + "'>" + invitation.to_name + "</a></td>"
+		                + "<td>" + "GLX" + zfill1(invitation.id, 8) + "</td>"
+		                + "<td>" + invitation.created_at + "</td>"
+		                + "</tr>";
+		                count++;
+		            });
+		            $('table#invitations tbody').html(html);
+				},
+				error:function(jqXHR, textStatus, errorThrown)
+				{
+					alert('Server quá tải, xin bạn vui lòng thử lại');
+				}
+		    });
+	 	}
+	});
 });

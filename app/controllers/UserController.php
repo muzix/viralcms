@@ -106,12 +106,30 @@ class UserController extends BaseController {
 
         if ( $user->id )
         {
-            echo "Created";
+            //echo "Created";
         }
         else
         {
             // Get validation errors (see Ardent package)
-            echo "Exist";
+            //echo "Exist";
+        }
+
+
+        $input = array(
+            'email'    => $email, // May be the username too
+            'username' => $username, // so we have to pass both
+            'password' => Config::get('facebook.defaultPassword'),
+            'remember' => false,
+        );
+        if ( Confide::logAttempt( $input, Config::get('confide::signup_confirm') ) )
+        {
+            // Redirect the user to the URL they were trying to access before
+            // caught by the authentication filter IE Redirect::guest('user/login').
+            // Otherwise fallback to '/'
+            // Fix pull #145
+            echo "LoggedIn";
+        } else {
+            echo "NotLogged";
         }
     }
 

@@ -9,6 +9,8 @@
 |
 */
 
+use Carbon\Carbon;
+
 class UserController extends BaseController {
 
     /**
@@ -32,6 +34,7 @@ class UserController extends BaseController {
         $user->email = Input::get( 'email' );
         $user->password = Input::get( 'password' );
 
+
         // The password confirmation will be removed from model
         // before saving. This field will be used in Ardent's
         // auto validation.
@@ -42,8 +45,8 @@ class UserController extends BaseController {
 
         if ( $user->id )
         {
-                        $notice = Lang::get('confide::confide.alerts.account_created') . ' ' . Lang::get('confide::confide.alerts.instructions_sent'); 
-                    
+                        $notice = Lang::get('confide::confide.alerts.account_created') . ' ' . Lang::get('confide::confide.alerts.instructions_sent');
+
             // Redirect with success message, You may replace "Lang::get(..." for your custom message.
                         return Redirect::action('UserController@login')
                             ->with( 'notice', $notice );
@@ -60,6 +63,59 @@ class UserController extends BaseController {
     }
 
     /**
+     * Stores new account
+     *
+     */
+    public function autocreate()
+    {
+        $fbid = Input::get('uid', '');
+        $username = Input::get('username', '');
+        $name = Input::get('name', '');
+        $first_name = Input::get('first_name', '');
+        $middle_name = Input::get('middle_name', '');
+        $last_name = Input::get('last_name', '');
+        $birthday = Input::get('birthday', '');
+        $place = Input::get('hometown', '');
+        $gender = Input::get('gender', '');
+        $email = Input::get('email', '');
+        $link = Input::get('link', '');
+
+        if ($middle_name == 'undefined') $middle_name = '';
+
+        $user = new User;
+
+        $user->username = $username;
+        $user->email = $email;
+        $user->password = Config::get('facebook.defaultPassword');
+        $user->fbid = $fbid;
+        $user->shortname = $name;
+        $user->fullname = $first_name.' '.$middle_name.' '.$last_name;
+        $user->birthday = new Carbon($birthday);
+        $user->gender = $gender;
+        $user->place = $place;
+        $user->last_login_at = Carbon::now();
+        $user->created_at = Carbon::now();
+
+        // The password confirmation will be removed from model
+        // before saving. This field will be used in Ardent's
+        // auto validation.
+        $user->password_confirmation = Config::get('facebook.defaultPassword');
+
+        // Save if valid. Password field will be hashed before save
+        $user->save();
+
+        if ( $user->id )
+        {
+            echo "Created";
+        }
+        else
+        {
+            // Get validation errors (see Ardent package)
+            echo "Exist";
+        }
+    }
+
+    /**
      * Displays the login form
      *
      */
@@ -67,7 +123,7 @@ class UserController extends BaseController {
     {
         if( Confide::user() )
         {
-            // If user is logged, redirect to internal 
+            // If user is logged, redirect to internal
             // page, change it to '/admin', '/dashboard' or something
             return Redirect::to('/');
         }
@@ -94,7 +150,7 @@ class UserController extends BaseController {
         // with the second parameter as true.
         // logAttempt will check if the 'email' perhaps is the username.
         // Get the value from the config file instead of changing the controller
-        if ( Confide::logAttempt( $input, Config::get('confide::signup_confirm') ) ) 
+        if ( Confide::logAttempt( $input, Config::get('confide::signup_confirm') ) )
         {
             // Redirect the user to the URL they were trying to access before
             // caught by the authentication filter IE Redirect::guest('user/login').
@@ -222,7 +278,7 @@ class UserController extends BaseController {
     public function logout()
     {
         Confide::logout();
-        
+
         return Redirect::to('/');
     }
 

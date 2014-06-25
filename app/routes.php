@@ -31,7 +31,7 @@ Route::get('users', function()
 Route::get('/statistics', array('before' => 'auth.basic', function()
 {
 	$trackings = UserTracking::with(array(
-					'voucher', 
+					'voucher',
 					'spawnedItem.item',
 					'spawnedItem.user'))->whereHas('spawnedItem', function($q){
 		$q->whereIn('item_id', array(3,4,5))->whereNotIn('user_id', array(13,14,15));
@@ -62,7 +62,7 @@ Route::get('/myvouchers', function () {
 	})->get();
 
 	$special = UserTracking::with(array(
-					'voucher', 
+					'voucher',
 					'spawnedItem.item',
 					'spawnedItem.user'))->whereHas('spawnedItem', function($q) use ($fbid) {
 		$q->whereIn('item_id', array(3))->whereNotIn('user_id', array(14,15))->whereHas('user', function($q) use($fbid) {
@@ -76,7 +76,7 @@ Route::get('/myvouchers', function () {
 
 // Route group for API versioning
 Route::group(array('prefix' => 'api/v1', 'before' => 'auth.basic'), function()
-//Route::group(array('prefix' => 'api/v1'), function()	
+//Route::group(array('prefix' => 'api/v1'), function()
 {
 	Route::resource('events', 'api\v1p1\EventsController');
 	Route::resource('locations', 'api\v1p1\LocationsController');
@@ -85,7 +85,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'auth.basic'), function()
 });
 
 Route::group(array('prefix' => 'api/v1p1', 'before' => 'auth.basic'), function()
-//Route::group(array('prefix' => 'api/v1'), function()	
+//Route::group(array('prefix' => 'api/v1'), function()
 {
 	Route::resource('events', 'api\v1p1\EventsController');
 	Route::resource('locations', 'api\v1p1\LocationsController');
@@ -94,10 +94,18 @@ Route::group(array('prefix' => 'api/v1p1', 'before' => 'auth.basic'), function()
 });
 
 Route::group(array('prefix' => 'api'), function()
-//Route::group(array('prefix' => 'api/v1'), function()	
+//Route::group(array('prefix' => 'api/v1'), function()
 {
 	Route::controller('app', 'AppController');
-});// Confide routes
+});
+
+// Route for event pagetab
+Route::get('event/invite/', 'StackController@invite');
+Route::post('event/invite/', 'StackController@invite');
+Route::post('user/autocreate/', 'UserController@autocreate');
+Route::get('user/autocreate/', 'UserController@autocreate');
+
+// Confide routes
 Route::get( 'user/create',                 'UserController@create');
 Route::post('user',                        'UserController@store');
 Route::get( 'user/login',                  'UserController@login');

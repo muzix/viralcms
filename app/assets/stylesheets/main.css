@@ -1,0 +1,34 @@
+div#wrapper {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+    padding-bottom:20px;
+    top: 0px;
+    bottom:20px;
+    width:780px;
+    background-color: #FFFFFF;
+}
+
+.banner-image{
+    background: transparent url('/assets/banner.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    height: 170px;
+    min-width: 810px;
+}
+
+.like-image{
+    background: transparent url('/assets/like.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    height: 400px;
+    min-width: 810px;
+}
+
+#button-invite {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+}

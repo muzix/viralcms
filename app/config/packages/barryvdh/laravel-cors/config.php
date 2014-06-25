@@ -17,9 +17,9 @@ return array(
      */
     'defaults' => array(
         'supportsCredentials' => true,
-        'allowedOrigins' => array(),
+        'allowedOrigins' => array('*'),
         'allowedHeaders' => array(),
-        'allowedMethods' => array(),
+        'allowedMethods' => array('POST', 'PUT', 'GET', 'DELETE'),
         'exposedHeaders' => array(),
         'maxAge' => 0,
         'hosts' => array(),
@@ -38,13 +38,13 @@ return array(
             'allow_methods' => array('POST', 'PUT', 'GET', 'DELETE'),
             'max_age' => 3600,
         ),
-        // '*' => array(
-        //     'allowedOrigins' => array('*'),
-        //     'allowedHeaders' => array('Content-Type', 'Authorization'),
-        //     'allowedMethods' => array('POST', 'PUT', 'GET', 'DELETE'),
-        //     'maxAge' => 3600,
-        //     'hosts' => array('api.*'),
-        // ),
+        '*' => array(
+            'allowedOrigins' => array('*'),
+            'allowedHeaders' => array('Content-Type', 'Authorization'),
+            'allowedMethods' => array('POST', 'PUT', 'GET', 'DELETE'),
+            'maxAge' => 3600,
+            'hosts' => array('api.*'),
+        ),
     ),
 
 );

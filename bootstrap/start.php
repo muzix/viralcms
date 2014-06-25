@@ -27,7 +27,7 @@ $app = new Illuminate\Foundation\Application;
 $env = $app->detectEnvironment(array(
 
 	//'local' => array('homestead'),
-	'local' => array('localhost'),
+	'local' => array('Hoangs-Mac-mini.local'),
 
 ));
 
@@ -59,6 +59,8 @@ $framework = $app['path.base'].
                  '/vendor/laravel/framework/src';
 
 require $framework.'/Illuminate/Foundation/start.php';
+
+App::forgetMiddleware('Illuminate\Http\FrameGuard');
 
 /*
 |--------------------------------------------------------------------------

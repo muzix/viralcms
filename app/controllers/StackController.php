@@ -2,6 +2,10 @@
 
 class StackController extends \BaseController {
 
+    public function inviteapp() {
+         echo("<script> window.top.location.href='" . Config::get('facebook.pageTabUrl') . "'</script>");
+    }
+
 	public function invite()
 	{
         $config = array();
@@ -46,8 +50,8 @@ class StackController extends \BaseController {
 	public function create()
 	{
 		if (Auth::guest()) {
-			echo "NotLogged";
-			return;
+			$res = array("status" => "error", "message" => "notlogged" );
+            return Response::json($res);
 		}
 		$fromId = Input::get('fromId', '');
 		$toId = Input::get('toId', '');
@@ -59,8 +63,8 @@ class StackController extends \BaseController {
 
 		if(!isset($search->id))
 		{
-			echo "NotExist";
-			return;
+			$res = array("status" => "error", "message" => "notexist" );
+            return Response::json($res);
 		}
 
 		$invitations = Invitation::where('from_id', $fromId)->get();
@@ -76,8 +80,8 @@ class StackController extends \BaseController {
 		}
 
 		if ($exist) {
-			echo "Exist";
-			return;
+			$res = array("status" => "error", "message" => "exist" );
+            return Response::json($res);
 		}
 
 		$invitation = new Invitation;
@@ -90,9 +94,11 @@ class StackController extends \BaseController {
 		$invitation->save();
 
 		if ($invitation->id) {
-			echo $code;
+            $res = array("status" => "success", "code" => $code, "id" => $invitation->id);
+			return Response::json($res);
 		} else {
-			echo "Exist";
+            $res = array("status" => "error", "message" => "exist" );
+            return Response::json($res);
 		}
 	}
 

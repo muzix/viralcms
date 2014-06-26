@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 class ImageController extends \BaseController {
 
 	function LoadJpeg($imgname)
@@ -46,7 +46,7 @@ class ImageController extends \BaseController {
 		$src = $this->LoadJpeg($avatar);
         $srcToAvatar = $this->LoadJpeg($toAvatar);
 
-		$avatarPosX = 120;
+		$avatarPosX = 40;
 		$avatarPosY = 270;
 
 		//draw text
@@ -57,7 +57,7 @@ class ImageController extends \BaseController {
 
 		//The text to draw
 		$text = $description;
-		$text = $this->wrapText($text, 100);
+		$text = $this->wrapText($text, 45);
 		// Replace path by your own font path
 		// Set the enviroment variable for GD
 		//putenv('GDFONTPATH=' . realpath('.'));
@@ -84,12 +84,12 @@ class ImageController extends \BaseController {
 		$yr2 = abs(max($box[5], $box[7]));
 
 		$totalW = $xr2;
-		$textPosX = 320;
+		$textPosX = 210;
 		$textPosY = 300;
 
 		// Copy and merge
-		imagecopymerge($dest, $src, $avatarPosX, $avatarPosY, 0, 0, 84, 84, 100);
-        imagecopymerge($dest, $srcToAvatar, $avatarPosX + 500, $avatarPosY, 0, 0, 84, 84, 100);
+		imagecopymerge($dest, $src, $avatarPosX, $avatarPosY, 0, 0, 160, 160, 100);
+        imagecopymerge($dest, $srcToAvatar, $avatarPosX + 600, $avatarPosY, 0, 0, 160, 160, 100);
 
 		// Add some shadow to the text
 		imagettftext($dest, $size, $angle, $textPosX + 2, $textPosY+ 2, $black, $font, $text);
@@ -105,6 +105,8 @@ class ImageController extends \BaseController {
 
 		imagedestroy($dest);
 		imagedestroy($src);
+
+        return $filename;
 	}
 
 	/**
@@ -127,16 +129,41 @@ class ImageController extends \BaseController {
 	public function create()
 	{
 		//
-		$fromId = Input::get('fromId', '');
-		$toId = Input::get('toId', '');
+        $invitationId = Input::get('invitationId', '');
+        if ($invitationId == '') {
+            $ret = array("status" => "error", "message"=>"Missing Invitation Id!");
+            return Response::json($ret);
+        }
+
+        $invitation = Invitation::findOrFail($invitationId);
+        App::error(function(ModelNotFoundException $e)
+        {
+            return Response::make('Not Found', 404);
+        });
+
+		$fromId = $invitation->from_id;
+		$toId = $invitation->to_id;
 		$title = Input::get('title', '');
 		$description = Input::get('description', '');
 
-		$avatar = "https://graph.facebook.com/".$fromId."/picture?type=large&width=84";
-        $toAvatar = "https://graph.facebook.com/".$toId."/picture?type=large&width=84";
+		$avatar = "https://graph.facebook.com/".$fromId."/picture?type=large&width=160&height=160";
+        $toAvatar = "https://graph.facebook.com/".$toId."/picture?type=large&width=160&height=160";
 		$bg =  app_path().'/assets/images/banner.jpg';
 
-		$this->genPic($avatar, $toAvatar, $bg, $title, $description);
+		$filename = $this->genPic($avatar, $toAvatar, $bg, $title, $description);
+
+        $photo = new Photo;
+        $photo->invitation_id = $invitationId;
+        $photo->file = $filename;
+        $photo->save();
+
+        if($photo->id) {
+            $ret = array("status" => "success", "photo"=>$filename);
+            return Response::json($ret);
+        } else {
+            $ret = array("status" => "error", "message"=>"Unknown!");
+            return Response::json($ret);
+        }
 	}
 
 	/**

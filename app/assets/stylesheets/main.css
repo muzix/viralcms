@@ -20,16 +20,16 @@ div#content-wrapper {
 }
 
 .banner-image{
-    background: transparent url('/assets/banner.jpg') no-repeat center center;
+    background: transparent url('/viralcms/public/assets/banner2.jpg') no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
-    height: 200px;
+    height: 400px;
     min-width: 800px;
 }
 
 .like-image{
-    background: transparent url('/assets/like.jpg') no-repeat center center;
+    background: transparent url('/viralcms/public/assets/like.jpg') no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;

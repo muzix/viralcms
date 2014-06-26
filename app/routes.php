@@ -100,6 +100,8 @@ Route::group(array('prefix' => 'api'), function()
 });
 
 // Route for event pagetab
+Route::get('event/inviteapp/', 'StackController@inviteapp');
+Route::post('event/inviteapp/', 'StackController@inviteapp');
 Route::get('event/invite/', 'StackController@invite');
 Route::post('event/invite/', 'StackController@invite');
 Route::post('user/autocreate/', 'UserController@autocreate');

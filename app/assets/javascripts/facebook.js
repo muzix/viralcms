@@ -32,7 +32,7 @@ function doGetInfo() {
       frictionlessRequests:true
     });
 
-    FB.Canvas.setSize({height: 1000});
+    FB.Canvas.setSize({height: 1500});
 
     // Additional initialization code here
 	FB.getLoginStatus(function(response) {
@@ -152,7 +152,7 @@ function doInviteFriend() {
 
 function doInviteFriendById(friendId, friendName) {
     var str_to = friendId + ',';
-    var mes = "Cơ hội nhận vé xem phim Deliver us from evil miễn phí!";
+    var mes = "Chơi game để có cơ hội nhận vé xem phim Linh Hồn Báo Thù miễn phí ngày 4/7/2014 từ Galaxy Thiên Ngân!";
     FB.ui({method: 'apprequests',
         message: mes,
         to: str_to
@@ -160,22 +160,33 @@ function doInviteFriendById(friendId, friendName) {
         //alert(JSON.stringify(response));
         if (response.request !== undefined) {
             //TODO
-
+            doGetInviteCode(friendId, friendName);
         } else {
             alert("Bạn chưa gửi lời mời !!!");
-            doGetInviteCode(friendId, friendName);
+
         }
     });
 }
 
 function doGetInviteCode(friendId, friendName) {
 	$.ajax({
-		url: basepath + "nvitation/create",
+		url: basepath + "invitation/create",
 		type: "POST",//Mặc định là GET
 		data: {fromId:FacebookData.uid, toId:friendId, toName:friendName},
 		success:function(data, textStatus, jqXHR)
 		{
-			alert(data);
+			//alert(data);
+            if (data.status == "success") {
+                alert("Bạn đã nhận được một mã dự thưởng: GLX" + zfill1(data.id, 8) + "");
+                doCreatePhoto(data.id, friendName);
+            }
+            else {
+                if (data.message == "exist") {
+                    alert("Bạn đã mời tài khoản này rồi. Vui lòng chọn người khác ^^");
+                } else {
+                    alert('Server quá tải, xin bạn vui lòng thử lại');
+                }
+            }
 		},
 		error:function(jqXHR, textStatus, errorThrown)
 		{
@@ -234,43 +245,42 @@ function doGetRank() {
     });
 }
 
-function doPostScore(score) {
-	var jsHost = (("https:" == document.location.protocol) ? "https:" : "http:");
-	var params = {};
-	params.access_token = FacebookData.accessToken;
-	//params.caption = "Chúc mừng bạn đã tạo Scandal thành công với chiêu thức " + note;
-	params.message = "Đón xem Tarzan 3D!\n";
-	var picture = jsHost + basepath + "images/eotw_share_image.jpg";
-	params.picture = picture;
-	params.link = "http://on.fb.me/1bFLe76";
-	params.name = FacebookData.username + " đã đạt được " + score + " điểm";
-	params.caption = FacebookData.username + " đã đạt được " + score + " điểm";
-	params.description = "Tham gia fanpage GalaxyFilm! Link game: http://on.fb.me/1bFLe76";
-	FB.api('/me/feed', 'post', params, function(response) {
-		if (!response || response.error) {
-			//console.log('Error occured ' + response.error.message);
-		} else {
-			//console.log("Đăng điểm lên tường thành công!");
-		}
-	});
-
-	doInviteFriend();
-
+function doCreatePhoto(invitationId, friendName) {
+    var des = FacebookData.username + " đã mời " + friendName + " tới rạp xem phim kinh dị Deliver Us From Evil - Linh Hồn Báo Thù và có cơ hội trúng tới 10 vé xem phim miễn phí.";
+    $.ajax({
+        url:  basepath  + "image/create",
+        type: "POST",//Mặc định là GET
+        data: {invitationId:invitationId, title:'', description:des},
+        success:function(data, textStatus, jqXHR)
+        {
+            //alert(JSON.stringify(data));
+            if (data.status == "error") {
+                alert('Server quá tải, xin bạn vui lòng thử lại');
+            } else {
+                var file = data.photo;
+                var filepath = basepath + "assets/" + file;
+                doPostImage(filepath, friendName);
+            }
+        },
+        error:function(jqXHR, textStatus, errorThrown)
+        {
+            alert('Server quá tải, xin bạn vui lòng thử lại');
+        }
+    });
 }
 
-function doPostImage(fileName) {
+function doPostImage(filepath, friendName) {
 	//Đăng ảnh lên tường của người dùng
-	console.log("doPostImage:" + fileName);
+	//console.log("doPostImage:" + fileName);
 	var jsHost = (("https:" == document.location.protocol) ? "https:" : "http:");
 	var params = {};
 	params.access_token = FacebookData.accessToken;
 	//params.caption = "Chúc mừng bạn đã tạo Scandal thành công với chiêu thức " + note;
-	params.name = "Ảnh dự thi Tarzan 3D của " + FacebookData.username + "\nTham gia cuộc thi chụp hình Tarzan 3D tại fanpage: https://www.facebook.com/GalaxyFilm \nHoặc truy cập trực tiếp ứng dụng: http://on.fb.me/1bFLe76";
-	var url = jsHost + "//depdocdao.vn/galaxy/tarzanphoto/postcard/" + fileName + ".jpg";
+	params.name = "Bạn " + FacebookData.username + " đã mời " + friendName + " đi xem phim Linh Hồn Báo Thù tại Việt Nam ngày 4/7/2014 và có cơ hội trúng tới 10 vé xem phim miễn phí.\nTham gia tại đây: http://on.fb.me/1sHchKC\nTrailer phim: http://bit.ly/1pRjcNM";
+	var url = jsHost + filepath;
 	params.url = url;
-	console.log("doPostImage:" + params.url);
+	//console.log("doPostImage:" + params.url);
 
-	/*
 	FB.api('/me/photos', 'post', params, function(response) {
 		if (!response || response.error) {
 			//alert('Error occured: ' + response.error.message);
@@ -278,56 +288,10 @@ function doPostImage(fileName) {
 		} else {
 			alert("Đăng lên tường thành công!");
 		}
-	});*/
-
-	//Đang ảnh vào album dự thi của Page
-	doPostImageToGalaxy(fileName);
-
-	//Store thông tin dự thi ở server
-	doPostDataToServer(fileName);
-
-	//Mời bạn
-	doInviteFriend();
-
-}
-
-
-function doPostImageToGalaxy(fileName) {
-	console.log("doPostImageToGalaxy:" + fileName);
-	var jsHost = (("https:" == document.location.protocol) ? "https:" : "http:");
-	var params = {};
-	//Galaxy: CAAICXp7w4sMBALVYlkvaW87b59KHby9vMXRHKYP6JmEfyLlD3MbZBUzVheFTUdNrLeeYol4G6Kbc7Y8YpMGg2Jo1ZBgyyZCxRSGFuWuOeZAd8YfOJEHJGyw3kcO5ZBmTZAENxfvGZAt6gz3rZBON1pRu2BZAve3x4rnZA3yp00AbQZC0cYknD9IgksolRg3Bll1mf4ZD
-	params.access_token = "CAAICXp7w4sMBANEYwJaigjvKCmZC9KUkvMw5mRgRtZBkx2s2CBiBZCgWO11umZCmWMbOvqhy5L8vun3XGjo8GGpJ2KYLTEwpaZARRNaBnpWZCmv5CuV9PgVX42RuGe2yjDExrsgGxMvs7hsb7IGPM4ZB2tQZArSvZCeISyhzwIjhoc9ASPsMZCcDBgsAq3iu7DqxMZD";
-	params.name = "Ảnh dự thi Tarzan 3D của " + FacebookData.username + "(" + FacebookData.ulink + ")";
-	//params.message = FacebookData.username + " vừa xì trum thành công ảnh dự thi Xì trum 2!";
-	var url = jsHost + "//depdocdao.vn/galaxy/tarzanphoto/postcard/" + fileName + ".jpg";
-	params.url = url;
-	FB.api('/537415253021755/photos', 'post', params, function(response) {
-		if (!response || response.error) {
-			//alert('Error occured: ' + response.error.message);
-			alert('Đăng ảnh dự thi không thành công, xin bạn vui lòng thử lại');
-		} else {
-			alert("Đăng ảnh dự thi thành công!");
-		}
 	});
+
 }
 
-function doPostDataToServer(fileName) {
-	var jsHost = (("https:" == document.location.protocol) ? "https:" : "http:");
-	$.ajax({
-		url: jsHost + "//depdocdao.vn/galaxy/tarzanphoto/xml.php",
-		type: "POST",//Mặc định là GET
-		data: {uid:FacebookData.uid, username:FacebookData.username, filename:fileName, link:FacebookData.ulink},
-		success:function(data, textStatus, jqXHR)
-		{
-			//alert("Success!");
-		},
-		error:function(jqXHR, textStatus, errorThrown)
-		{
-			alert('Server quá tải, xin bạn vui lòng thử lại');
-		}
-    });
-}
 
 //Start load fb info
 loadFacebookInfo();

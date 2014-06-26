@@ -27,7 +27,7 @@ return array(
 	*/
 
 	//'url' => 'http://localhost:8888/viralcms',
-    'url' => 'https://test.secure.dev',
+    'url' => 'https://tibu.tk/viralcms/public/',
 
 	/*
 	|--------------------------------------------------------------------------

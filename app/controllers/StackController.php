@@ -29,7 +29,7 @@ class StackController extends \BaseController {
             //if(0){
                 $params = array(
                   'scope' => 'user_about_me, user_birthday, user_friends, user_hometown, user_location, email, publish_actions',
-                  'redirect_uri' => Config::get('facebook.appUrl')
+                  'redirect_uri' => Config::get('facebook.pageTabUrl')
                 );
                 $loginUrl = $facebook->getLoginUrl($params);
                 echo("<script> window.top.location.href='" . $loginUrl . "'</script>");

@@ -2,11 +2,13 @@
 
 @section('content')
     <div class="banner-image"></div>
-
     <ul class="nav nav-tabs" style="margin-bottom: 15px;">
       <li class="active"><a href="#home" data-toggle="tab">Nội dung sự kiện</a></li>
       <li class=""><a href="#profile" data-toggle="tab">Code của bạn</a></li>
+      <li class=""><a href="#rank" data-toggle="tab">Bảng xếp hạng</a></li>
     </ul>
+    <div id='content-wrapper'>
+
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade active in" id="home">
             <h3>Sự kiện: Mời ảo trúng thật</h3>
@@ -33,9 +35,25 @@
                 </tr>
               </thead>
               <tbody>
-                
+
               </tbody>
-            </table> 
+            </table>
         </div>
+        <div class="tab-pane fade" id="rank">
+            <table class="table table-striped table-hover " id="table-rank">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Thành viên</th>
+                  <th>Số lời mời</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+        </div>
+    </div>
+
     </div>
 @stop

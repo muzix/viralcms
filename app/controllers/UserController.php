@@ -114,6 +114,10 @@ class UserController extends BaseController {
             //echo "Exist";
         }
 
+        if ($email == '' && $username == '') {
+            echo "NotLogged";
+            return;
+        };
 
         $input = array(
             'email'    => $email, // May be the username too
@@ -121,13 +125,15 @@ class UserController extends BaseController {
             'password' => Config::get('facebook.defaultPassword'),
             'remember' => false,
         );
+        //var_dump($input);
         if ( Confide::logAttempt( $input, Config::get('confide::signup_confirm') ) )
         {
             // Redirect the user to the URL they were trying to access before
             // caught by the authentication filter IE Redirect::guest('user/login').
             // Otherwise fallback to '/'
             // Fix pull #145
-            echo "LoggedIn";
+            $response = array("status" => "LoggedIn");
+            return Response::json($response);
         } else {
             echo "NotLogged";
         }

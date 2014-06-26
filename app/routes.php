@@ -109,6 +109,7 @@ Route::get('invitation/create/', 'StackController@create');
 Route::get('invitation/lists', 'StackController@lists');
 Route::get('image/create', 'ImageController@create');
 Route::post('image/create', 'ImageController@create');
+Route::get('invitation/rank/', 'StackController@rank');
 
 // Confide routes
 Route::get( 'user/create',                 'UserController@create');

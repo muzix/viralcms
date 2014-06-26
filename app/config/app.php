@@ -27,7 +27,7 @@ return array(
 	*/
 
 	//'url' => 'http://localhost:8888/viralcms',
-    'url' => 'https://test.secure.dev:8890',
+    'url' => 'https://test.secure.dev',
 
 	/*
 	|--------------------------------------------------------------------------

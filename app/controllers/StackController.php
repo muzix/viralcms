@@ -56,7 +56,7 @@ class StackController extends \BaseController {
 
 		// check if toId exist in facebook
 		$search = json_decode($this->curl_get_contents("https://graph.facebook.com/$toId"));
- 
+
 		if(!isset($search->id))
 		{
 			echo "NotExist";
@@ -115,6 +115,22 @@ class StackController extends \BaseController {
 		return $invitations;
 	}
 
+    public function rank()
+    {
+       $groups = DB::table('invitations')
+                ->join('users', 'invitations.from_id', '=', 'users.fbid')
+                ->select(array('from_id', DB::raw('COUNT(*) `amount`'), 'username', 'shortname', 'fullname'))
+                ->groupBy('from_id')
+                ->orderBy('amount', 'DESC')
+                ->take(5)
+                ->get();
+
+        return $groups;
+        // foreach ($groups as $g) {
+        //     echo "$g->shortname has $g->amount invites!";
+        // }
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 * GET /stack
@@ -148,7 +164,7 @@ class StackController extends \BaseController {
 	public function show($id)
 	{
 		//
-		
+
 	}
 
 	/**

@@ -3,9 +3,19 @@ div#wrapper {
     margin-left:auto;
     margin-right:auto;
     padding-bottom:20px;
-    top: 0px;
     bottom:20px;
-    width:780px;
+    width:810px;
+    background-color: #FFFFFF;
+}
+
+div#content-wrapper {
+    position:relative;
+    margin-left:20px;
+    margin-right:20px;
+    padding-bottom:20px;
+    top:20px;
+    bottom:20px;
+    width:770px;
     background-color: #FFFFFF;
 }
 
@@ -14,8 +24,8 @@ div#wrapper {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
-    height: 170px;
-    min-width: 810px;
+    height: 200px;
+    min-width: 800px;
 }
 
 .like-image{
@@ -31,4 +41,9 @@ div#wrapper {
     position:relative;
     margin-left:auto;
     margin-right:auto;
+}
+
+#pleaseWaitDialog {
+
+
 }

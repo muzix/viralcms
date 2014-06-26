@@ -49,7 +49,8 @@ return array(
 		'provider/assets/javascripts',
 		'provider/assets/stylesheets',
 		'provider/assets/images',
-		'app/assets/fonts'
+		'app/assets/fonts',
+        'app/assets/userphotos'
 	),
 
 	/*

@@ -2,8 +2,8 @@
 FacebookLoad = $.Deferred();
 
 
-var basepath = "//test.secure.dev/event/invite/";
-var scorepath = "//test.secure.dev/event/invite/";
+var basepath = "//test.secure.dev/";
+var scorepath = "//test.secure.dev/";
 var secret = "60176de80913eaeb5eaba70f79c8fe39";
 
 FacebookData = {};
@@ -22,6 +22,7 @@ FacebookData.accessToken = '';
 
 
 function doGetInfo() {
+    $('#pleaseWaitDialog').modal();
 	FB.init({
       appId      : '850948594931878', // App ID
       channelUrl : basepath + 'channel.php', // Channel File
@@ -31,7 +32,7 @@ function doGetInfo() {
       frictionlessRequests:true
     });
 
-    FB.Canvas.setSize({height: 1500});
+    FB.Canvas.setSize({height: 1000});
 
     // Additional initialization code here
 	FB.getLoginStatus(function(response) {
@@ -88,13 +89,14 @@ function doGetInfo() {
 function submitUserInfo(uid, username, name, first, middle, last, birthday, hometown, gender, email, link) {
 	var jsHost = (("https:" == document.location.protocol) ? "https:" : "http:");
 	$.ajax({
-		url: jsHost + "//test.secure.dev/user/autocreate",
+		url: basepath + "user/autocreate",
 		type: "POST",//Mặc định là GET
 		data: {uid:uid, username:name, name:username, first_name:first, middle_name:middle, last_name:last, birthday:birthday, hometown:hometown, gender:gender, email:email, link:link},
 		success:function(data, textStatus, jqXHR)
 		{
-			alert(data);
-		},
+			//alert(JSON.stringify(data));
+            $('#pleaseWaitDialog').modal('hide');
+        },
 		error:function(jqXHR, textStatus, errorThrown)
 		{
 			alert('Server quá tải, xin bạn vui lòng thử lại');
@@ -168,7 +170,7 @@ function doInviteFriendById(friendId, friendName) {
 
 function doGetInviteCode(friendId, friendName) {
 	$.ajax({
-		url: "//test.secure.dev/invitation/create",
+		url: basepath + "nvitation/create",
 		type: "POST",//Mặc định là GET
 		data: {fromId:FacebookData.uid, toId:friendId, toName:friendName},
 		success:function(data, textStatus, jqXHR)
@@ -197,6 +199,37 @@ function doListFriend() {
             });
             $('select#planets').html(str_to);
             $('select#planets').listbox({'searchbar': true});
+        }
+    });
+}
+
+function doGetRank() {
+    $('#pleaseWaitDialog').modal();
+    $.ajax({
+        url:  basepath  + "invitation/rank",
+        type: "GET",//Mặc định là GET
+        data: {},
+        success:function(data, textStatus, jqXHR)
+        {
+            //alert(JSON.stringify(data));
+            var html = '';
+            var count = 1;
+            $.each(data,function(index, invitation) {
+                html =
+                html
+                + "<tr>"
+                + "<td>" + count + "</td>"
+                + "<td><a target='_blank' href='https://www.facebook.com/" + invitation.from_id + "'>" + invitation.shortname + "</a></td>"
+                + "<td>" + invitation.amount + "</td>"
+                + "</tr>";
+                count++;
+            });
+            $('table#table-rank tbody').html(html);
+            $('#pleaseWaitDialog').modal('hide');
+        },
+        error:function(jqXHR, textStatus, errorThrown)
+        {
+            alert('Server quá tải, xin bạn vui lòng thử lại');
         }
     });
 }
@@ -319,10 +352,12 @@ $( document ).ready(function() {
     });
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
 	  	var target = $(e.target).attr("href") // activated tab
 	 	if(target == '#profile') {
+            $('#pleaseWaitDialog').modal();
 	 		$.ajax({
-				url: "//test.secure.dev/invitation/lists",
+				url: basepath + "invitation/lists",
 				type: "GET",//Mặc định là GET
 				data: {id:FacebookData.uid},
 				success:function(data, textStatus, jqXHR)
@@ -330,9 +365,9 @@ $( document ).ready(function() {
 					var html = '';
 					var count = 1;
 					$.each(data,function(index, invitation) {
-		                html = 
-		                html 
-		                + "<tr>"  
+		                html =
+		                html
+		                + "<tr>"
 		                + "<td>" + count + "</td>"
 		                + "<td><a target='_blank' href='https://www.facebook.com/" + invitation.to_id + "'>" + invitation.to_name + "</a></td>"
 		                + "<td>" + "GLX" + zfill1(invitation.id, 8) + "</td>"
@@ -341,12 +376,15 @@ $( document ).ready(function() {
 		                count++;
 		            });
 		            $('table#invitations tbody').html(html);
+                    $('#pleaseWaitDialog').modal('hide');
 				},
 				error:function(jqXHR, textStatus, errorThrown)
 				{
 					alert('Server quá tải, xin bạn vui lòng thử lại');
 				}
 		    });
-	 	}
+	 	} else if (target == '#rank') {
+            doGetRank();
+        }
 	});
 });

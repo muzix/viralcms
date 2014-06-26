@@ -33,7 +33,7 @@ class ImageController extends \BaseController {
 			$str.=$chr;
 			if($c>$maxLenPerLine && $chr==" ") {
 				$str.="\n";
-				$c=0;   
+				$c=0;
 			}
 			$c++;
 			}
@@ -41,14 +41,13 @@ class ImageController extends \BaseController {
 		return $result;
 	}
 
-	function genPic($avatar, $bg, $title, $description) {
+	function genPic($avatar, $toAvatar, $bg, $title, $description) {
 		$dest = $this->LoadJpeg($bg);
 		$src = $this->LoadJpeg($avatar);
+        $srcToAvatar = $this->LoadJpeg($toAvatar);
 
-		$avatarPosX = 220;
-		$avatarPosY = 60;
-		$textPosX = 810 * 0.5 - 50;
-		$textPosY = 40;
+		$avatarPosX = 120;
+		$avatarPosY = 270;
 
 		//draw text
 		$white = imagecolorallocate($dest, 255, 255, 255);
@@ -56,16 +55,16 @@ class ImageController extends \BaseController {
 		$black = imagecolorallocate($dest, 0, 0, 0);
 		$yellow = imagecolorallocate($dest, 255, 255, 0);
 
-		// The text to draw
-		// $text = $description;
-		// $text = $this->wrapText($text, 100);
-		// // Replace path by your own font path
-		// // Set the enviroment variable for GD
-		// //putenv('GDFONTPATH=' . realpath('.'));
-		// putenv('GDFONTPATH=/assets');
-		// $font = 'GRGAREF.TTF';
-		// $size = 16;
-		// $angle = 0;
+		//The text to draw
+		$text = $description;
+		$text = $this->wrapText($text, 100);
+		// Replace path by your own font path
+		// Set the enviroment variable for GD
+		//putenv('GDFONTPATH=' . realpath('.'));
+		putenv('GDFONTPATH='.app_path().'/assets/fonts/');
+		$font = 'GRGAREF.TTF';
+		$size = 16;
+		$angle = 0;
 
 		// $box = ImageTTFBBox($size, $angle, $font, $title);
 
@@ -79,38 +78,30 @@ class ImageController extends \BaseController {
 		// imagettftext($dest, 22, $angle, $textPosX - $xr/2, $textPosY, $white, $font, $title);
 
 
-		// $box = ImageTTFBBox($size, $angle, $font, $text);
+		$box = ImageTTFBBox($size, $angle, $font, $text);
 
-		// $xr2 = abs(max($box[2], $box[4]));
-		// $yr2 = abs(max($box[5], $box[7]));
+		$xr2 = abs(max($box[2], $box[4]));
+		$yr2 = abs(max($box[5], $box[7]));
 
-		// $totalW = $xr2 + 94;
-		// $avatarPosX = 810 * 0.5 - $totalW * 0.5;
-		// $textPosX = $avatarPosX + 94;
-		// $textPosY = $avatarPosY + 42;
+		$totalW = $xr2;
+		$textPosX = 320;
+		$textPosY = 300;
 
 		// Copy and merge
 		imagecopymerge($dest, $src, $avatarPosX, $avatarPosY, 0, 0, 84, 84, 100);
+        imagecopymerge($dest, $srcToAvatar, $avatarPosX + 500, $avatarPosY, 0, 0, 84, 84, 100);
 
 		// Add some shadow to the text
-		//imagettftext($dest, $size, $angle, $textPosX + 2, $textPosY+ 2, $black, $font, $text);
+		imagettftext($dest, $size, $angle, $textPosX + 2, $textPosY+ 2, $black, $font, $text);
 
 		// Add the text
-		//imagettftext($dest, $size, $angle, $textPosX, $textPosY, $white, $font, $text);
+		imagettftext($dest, $size, $angle, $textPosX, $textPosY, $white, $font, $text);
 
 		$type = 'image/jpeg';
 
-	    return Response::make($dest, 200, 
-	                        array(
-	                        'Content-Type'              => $type,
-	                        'Content-Transfer-Encoding' => 'binary',
-	                        'Content-Disposition'       => 'inline',
-	                        'Expires'                   => 0,
-	                        'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
-	                        'Pragma'                    => 'public',
-	                     
-	                        ))->header();
-        imagejpeg($dest);
+        $filename = uniqid().".jpg";
+        $outputPath = app_path().'/assets/userphotos/';
+        imagejpeg($dest, $outputPath.$filename);
 
 		imagedestroy($dest);
 		imagedestroy($src);
@@ -141,10 +132,11 @@ class ImageController extends \BaseController {
 		$title = Input::get('title', '');
 		$description = Input::get('description', '');
 
-		$avatar = "http://graph.facebook.com/".$fromId."/picture?type=large&width=84";
-		$bg = '/assets/like.jpg';
+		$avatar = "https://graph.facebook.com/".$fromId."/picture?type=large&width=84";
+        $toAvatar = "https://graph.facebook.com/".$toId."/picture?type=large&width=84";
+		$bg =  app_path().'/assets/images/banner.jpg';
 
-		$this->genPic($avatar, $bg, $title, $description);
+		$this->genPic($avatar, $toAvatar, $bg, $title, $description);
 	}
 
 	/**

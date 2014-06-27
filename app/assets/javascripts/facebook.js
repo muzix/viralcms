@@ -1,9 +1,9 @@
 //setup global hook
 FacebookLoad = $.Deferred();
+var DEBUG_MODE = true;
 
-
-var basepath = "//tibu.tk/viralcms/public/";
-var scorepath = "//tibu.tk/viralcms/public/";
+var basepath = "//test.secure.dev/";
+var scorepath = "//test.secure.dev/";
 var secret = "60176de80913eaeb5eaba70f79c8fe39";
 
 FacebookData = {};
@@ -169,10 +169,11 @@ function doInviteFriendById(friendId, friendName) {
 }
 
 function doGetInviteCode(friendId, friendName) {
+    var token = $('[name="_token"]').val();
 	$.ajax({
 		url: basepath + "invitation/create",
 		type: "POST",//Mặc định là GET
-		data: {fromId:FacebookData.uid, toId:friendId, toName:friendName},
+		data: {fromId:FacebookData.uid, toId:friendId, toName:friendName, _token:token},
 		success:function(data, textStatus, jqXHR)
 		{
 			//alert(data);
@@ -294,7 +295,7 @@ function doPostImage(filepath, friendName) {
 
 
 //Start load fb info
-loadFacebookInfo();
+if (!DEBUG_MODE) loadFacebookInfo();
 
 function zfill1(number, size) {
 	number = number.toString();
@@ -308,7 +309,13 @@ $( document ).ready(function() {
         var friendId = friendNode.attr('id');
         var friendName = friendNode.html();
         if (friendId !== undefined) {
-            doInviteFriendById(friendId, friendName);
+            if (DEBUG_MODE) {
+                friendId = '648583608';
+                friendName = 'Hoang Pham Huu';
+                doGetInviteCode(friendId, friendName);
+            } else {
+                doInviteFriendById(friendId, friendName);
+            }
         } else {
             alert ("Bạn chưa chọn người bạn nào!");
         }

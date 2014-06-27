@@ -8,6 +8,10 @@ class StackController extends \BaseController {
 
 	public function invite()
 	{
+        $debug = Input::get('debug', 0);
+        if ($debug == 1) {
+            return View::make('invite');
+        }
         $config = array();
         $config['appId'] = Config::get('facebook.appId');
         $config['secret'] = Config::get('facebook.secret');
@@ -95,6 +99,7 @@ class StackController extends \BaseController {
 
 		if ($invitation->id) {
             $res = array("status" => "success", "code" => $code, "id" => $invitation->id);
+            Session::put('_token', sha1(microtime()));
 			return Response::json($res);
 		} else {
             $res = array("status" => "error", "message" => "exist" );

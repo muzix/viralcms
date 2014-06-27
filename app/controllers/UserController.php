@@ -69,7 +69,7 @@ class UserController extends BaseController {
     public function autocreate()
     {
         $fbid = Input::get('uid', '');
-        $username = Input::get('username', '');
+        $username = Input::get('username', 'HoangPH');
         $name = Input::get('name', '');
         $first_name = Input::get('first_name', '');
         $middle_name = Input::get('middle_name', '');
@@ -77,7 +77,7 @@ class UserController extends BaseController {
         $birthday = Input::get('birthday', '');
         $place = Input::get('hometown', '');
         $gender = Input::get('gender', '');
-        $email = Input::get('email', '');
+        $email = Input::get('email', 'scrabby_dooooo@yahoo.com');
         $link = Input::get('link', '');
 
         if ($middle_name == 'undefined') $middle_name = '';

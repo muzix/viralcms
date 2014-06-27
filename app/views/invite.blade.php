@@ -39,6 +39,7 @@
             </select>
 
             <p>&nbsp;</p>
+            {{Form::token()}}
             <button id="button-invite" type="button" class="btn btn-default btn-lg btn-block">Gửi lời mời</button>
         </div>
         <div class="tab-pane fade" id="profile">

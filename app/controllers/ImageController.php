@@ -24,6 +24,28 @@ class ImageController extends \BaseController {
 	    return $im;
 	}
 
+    function LoadPng($imgname)
+    {
+        /* Attempt to open */
+        $im = @imagecreatefrompng($imgname);
+
+        /* See if it failed */
+        if(!$im)
+        {
+            /* Create a black image */
+            $im  = imagecreatetruecolor(150, 30);
+            $bgc = imagecolorallocate($im, 255, 255, 255);
+            $tc  = imagecolorallocate($im, 0, 0, 0);
+
+            imagefilledrectangle($im, 0, 0, 150, 30, $bgc);
+
+            /* Output an error message */
+            imagestring($im, 1, 5, 5, 'Error loading ' . $imgname, $tc);
+        }
+
+        return $im;
+    }
+
 	function wrapText($description,$maxLenPerLine) {
 		$len=strlen($description);
 		$str="";
@@ -45,19 +67,22 @@ class ImageController extends \BaseController {
 		$dest = $this->LoadJpeg($bg);
 		$src = $this->LoadJpeg($avatar);
         $srcToAvatar = $this->LoadJpeg($toAvatar);
+        $framepath = app_path().'/assets/images/border.png';
+        $frame = $this->LoadPng($framepath);
 
-		$avatarPosX = 40;
-		$avatarPosY = 270;
+		$avatarPosX = 37;
+		$avatarPosY = 265;
 
 		//draw text
 		$white = imagecolorallocate($dest, 255, 255, 255);
 		$grey = imagecolorallocate($dest, 128, 128, 128);
 		$black = imagecolorallocate($dest, 0, 0, 0);
 		$yellow = imagecolorallocate($dest, 255, 255, 0);
+        $red = imagecolorallocate($dest, 150, 0, 0);
 
 		//The text to draw
 		$text = $description;
-		$text = $this->wrapText($text, 45);
+		//$text = $this->wrapText($text, 45);
 		// Replace path by your own font path
 		// Set the enviroment variable for GD
 		//putenv('GDFONTPATH=' . realpath('.'));
@@ -77,25 +102,42 @@ class ImageController extends \BaseController {
 		// // Add the text
 		// imagettftext($dest, 22, $angle, $textPosX - $xr/2, $textPosY, $white, $font, $title);
 
+        $dimensions = imagettfbbox($size, 0, $font, $text);
+        $margin = 10;
+        $text = explode("\n", wordwrap($text, 40)); // <-- you can change this number
+        $delta_y = 95;
+        //Centering y
+        $y = (imagesy($dest) - (($dimensions[1] - $dimensions[7]) + $margin)*count($text)) / 2;
 
-		$box = ImageTTFBBox($size, $angle, $font, $text);
+        foreach($text as $line) {
+            $dimensions = imagettfbbox($size, 0, $font, $line);
+            $delta_y =  $delta_y + ($dimensions[1] - $dimensions[7]) + $margin;
+            //centering x:
+            $x = imagesx($dest) / 2 - ($dimensions[4] - $dimensions[6]) / 2;
 
-		$xr2 = abs(max($box[2], $box[4]));
-		$yr2 = abs(max($box[5], $box[7]));
+            imagettftext($dest, $size, 0, $x, $y + $delta_y, $white, $font, $line);
+        }
 
-		$totalW = $xr2;
-		$textPosX = 210;
-		$textPosY = 300;
+		//$box = ImageTTFBBox($size, $angle, $font, $text);
+
+		//$xr2 = abs(max($box[2], $box[4]));
+		//$yr2 = abs(max($box[5], $box[7]));
+
+		//$totalW = $xr2;
+		//$textPosX = 210;
+		//$textPosY = 300;
 
 		// Copy and merge
 		imagecopymerge($dest, $src, $avatarPosX, $avatarPosY, 0, 0, 160, 160, 100);
-        imagecopymerge($dest, $srcToAvatar, $avatarPosX + 600, $avatarPosY, 0, 0, 160, 160, 100);
+        imagecopy($dest, $frame, $avatarPosX, $avatarPosY, 0, 0, 160, 160);
+        imagecopymerge($dest, $srcToAvatar, 656, $avatarPosY, 0, 0, 160, 160, 100);
+        imagecopy($dest, $frame, 656, $avatarPosY, 0, 0, 160, 160);
 
 		// Add some shadow to the text
-		imagettftext($dest, $size, $angle, $textPosX + 2, $textPosY+ 2, $black, $font, $text);
+		//imagettftext($dest, $size, $angle, $textPosX + 2, $textPosY+ 2, $black, $font, $text);
 
 		// Add the text
-		imagettftext($dest, $size, $angle, $textPosX, $textPosY, $white, $font, $text);
+		//imagettftext($dest, $size, $angle, $textPosX, $textPosY, $white, $font, $text);
 
 		$type = 'image/jpeg';
 

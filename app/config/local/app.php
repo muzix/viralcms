@@ -14,5 +14,5 @@ return array(
 	*/
 
 	'debug' => true,
-
+    'url' => 'http://test.secure.dev/',
 );

@@ -179,7 +179,7 @@ function doGetInviteCode(friendId, friendName) {
 		{
 			//alert(data);
             if (data.status == "success") {
-                alert("Bạn đã nhận được một mã dự thưởng: GLX" + zfill1(data.id, 8) + "");
+                alert("Bạn đã gửi lời mời thành công, và nhận được 1 mã dự thưởng: GLX" + zfill1(data.id, 8) + "");
                 doCreatePhoto(data.id, friendName);
             }
             else {

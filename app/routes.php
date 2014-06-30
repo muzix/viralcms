@@ -114,8 +114,11 @@ Route::get('invitation/lists', 'StackController@lists');
 Route::get('image/create', 'ImageController@create');
 Route::post('image/create', 'ImageController@create');
 Route::get('invitation/rank/', 'StackController@rank');
-Route::get('token/', 'StackController@token');
-Route::post('token/', 'StackController@token');
+
+// Route for admin backend
+Route::get('admin', 'AdminController@showDashboard');
+
+
 
 // Confide routes
 Route::get( 'user/create',                 'UserController@create');

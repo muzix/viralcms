@@ -23,9 +23,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'muzix_viralcms',
-			'username'  => 'muzix_viralcms',
-			'password'  => 'g@l@xy',
+			'database'  => 'viralcms',
+			'username'  => 'root',
+			'password'  => 'root',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => 'glx_',

@@ -169,10 +169,12 @@ function doInviteFriendById(friendId, friendName) {
 }
 
 function doGetInviteCode(friendId, friendName) {
+    $('#pleaseWaitDialog').modal();
+    var token = $('[name="_token"]').val();
 	$.ajax({
 		url: basepath + "invitation/create",
 		type: "POST",//Mặc định là GET
-		data: {fromId:FacebookData.uid, toId:friendId, toName:friendName},
+		data: {fromId:FacebookData.uid, toId:friendId, toName:friendName, _token:token},
 		success:function(data, textStatus, jqXHR)
 		{
 			//alert(data);
@@ -186,10 +188,12 @@ function doGetInviteCode(friendId, friendName) {
                 } else {
                     alert('Server quá tải, xin bạn vui lòng thử lại');
                 }
+                $('#pleaseWaitDialog').modal('hide');
             }
 		},
 		error:function(jqXHR, textStatus, errorThrown)
 		{
+            $('#pleaseWaitDialog').modal('hide');
 			alert('Server quá tải, xin bạn vui lòng thử lại');
 		}
     });
@@ -256,6 +260,9 @@ function doCreatePhoto(invitationId, friendName) {
             //alert(JSON.stringify(data));
             if (data.status == "error") {
                 alert('Server quá tải, xin bạn vui lòng thử lại');
+                $('#pleaseWaitDialog').modal('hide');
+                var signedRequest = $('[name="signedrequest"]').val();
+                window.location = basepath+"event/invite?signed_request=" + signedRequest;
             } else {
                 var file = data.photo;
                 var filepath = basepath + "assets/" + file;
@@ -265,6 +272,9 @@ function doCreatePhoto(invitationId, friendName) {
         error:function(jqXHR, textStatus, errorThrown)
         {
             alert('Server quá tải, xin bạn vui lòng thử lại');
+            $('#pleaseWaitDialog').modal('hide');
+            var signedRequest = $('[name="signedrequest"]').val();
+            window.location = basepath+"event/invite?signed_request=" + signedRequest;
         }
     });
 }
@@ -288,6 +298,9 @@ function doPostImage(filepath, friendName) {
 		} else {
 			alert("Đăng lên tường thành công!");
 		}
+        $('#pleaseWaitDialog').modal('hide');
+        var signedRequest = $('[name="signedrequest"]').val();
+        window.location = basepath+"event/invite?signed_request=" + signedRequest;
 	});
 
 }

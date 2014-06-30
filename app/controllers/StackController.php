@@ -8,6 +8,8 @@ class StackController extends \BaseController {
 
 	public function invite()
 	{
+        $rawSignedRequest = Input::get('signed_request');
+
         $config = array();
         $config['appId'] = Config::get('facebook.appId');
         $config['secret'] = Config::get('facebook.secret');
@@ -39,7 +41,7 @@ class StackController extends \BaseController {
                 echo("<script> window.top.location.href='" . $loginUrl . "'</script>");
                 //echo("<script> window.open('" . $loginUrl . "');</script>");
             } else {
-                return View::make('invite');
+                return View::make('invite')->with('signedRequest', $rawSignedRequest);
             }
         } else {
             //If the page is not liked then do this.
@@ -95,6 +97,7 @@ class StackController extends \BaseController {
 
 		if ($invitation->id) {
             $res = array("status" => "success", "code" => $code, "id" => $invitation->id);
+            Session::put('_token', sha1(microtime()));
 			return Response::json($res);
 		} else {
             $res = array("status" => "error", "message" => "exist" );
@@ -135,6 +138,10 @@ class StackController extends \BaseController {
         // foreach ($groups as $g) {
         //     echo "$g->shortname has $g->amount invites!";
         // }
+    }
+
+    public function token() {
+        return View::make('token');
     }
 
 	/**

@@ -39,6 +39,10 @@
             </select>
 
             <p>&nbsp;</p>
+            <form id="form-invite" action="" method="post">
+                {{Form::token()}}
+                <input type="hidden" name="signedrequest" value="{{$signedRequest}}">
+            </form>
             <button id="button-invite" type="button" class="btn btn-default btn-lg btn-block">Gửi lời mời</button>
         </div>
         <div class="tab-pane fade" id="profile">

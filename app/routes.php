@@ -118,6 +118,8 @@ Route::get('invitation/rank/', 'StackController@rank');
 // Route for admin backend
 Route::get('admin', 'AdminController@showDashboard');
 
+// Route for apps
+Route::get('quiz', 'AppController@quiz');
 
 
 // Confide routes

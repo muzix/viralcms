@@ -1,0 +1,56 @@
+div#wrapper {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+    padding-bottom:20px;
+    bottom:20px;
+    width:810px;
+    background: transparent url('/assets/apps/quizcontest/wood_pattern.png') repeat;
+}
+
+div#content-wrapper {
+    position:relative;
+    margin-left:20px;
+    margin-right:20px;
+    padding-bottom:20px;
+    top:20px;
+    bottom:20px;
+    width:770px;
+    background: transparent;
+}
+
+div#quiz-video {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+    width:640px;
+}
+
+.banner-image{
+    background: transparent url('/assets/apps/quizcontest/banner.png') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    height: 400px;
+    min-width: 800px;
+}
+
+.like-image{
+    background: transparent url('/assets/like.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    height: 400px;
+    min-width: 810px;
+}
+
+#button-invite {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#pleaseWaitDialog {
+    padding-top:300px;
+
+}

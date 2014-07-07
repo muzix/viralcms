@@ -10,6 +10,13 @@ class AdminController extends \BaseController {
                 ->orderBy('amount', 'DESC')
                 ->get();
 
-        return View::make('admin.dashboard')->with(array("groups"=>$groups));
+        $codes = DB::table('invitations')
+                ->join('users', 'invitations.from_id', '=', 'users.fbid')
+                ->select('invitations.id', 'username', 'shortname', 'fullname', 'email', 'gender', 'birthday', 'place')
+                ->orderBy('id', 'DESC')
+                ->get();
+
+        return View::make('admin.dashboard')->with(array("groups"=>$groups, "codes"=>$codes));
     }
+
 }

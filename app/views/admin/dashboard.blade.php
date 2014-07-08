@@ -1,5 +1,9 @@
 @extends('admin.master')
 
+@section('current_app')
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">Rủ ảo trúng thật <b class="caret"></b></a>
+@stop
+
 @section('panel')
 <div class="list-group">
   <a href="#" class="list-group-item" id='panel-ranking'>Bảng xếp hạng

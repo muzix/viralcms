@@ -117,6 +117,8 @@ Route::get('invitation/rank/', 'StackController@rank');
 
 // Route for admin backend
 Route::get('admin', 'AdminController@showDashboard');
+Route::get('admin/ru-ao-trung-that', 'AdminController@showDashboard');
+Route::get('admin/quiz-contest', 'AdminController@showQuizDashboard');
 
 // Route for apps
 Route::get('quiz', 'AppController@quiz');

@@ -13,15 +13,38 @@
 //= require jquery
 //= require_tree .
 
+var DEBUG_MODE = true;
+
+function log(message) {
+    if (DEBUG_MODE) {
+        alert(message);
+    }
+}
+
+function debug(message) {
+    if (DEBUG_MODE) {
+        console.log(message);
+    }
+}
+
 $( document ).ready(function() {
 
     var script = document.currentScript || (function() {
         var scripts = document.getElementsByTagName("script");
-        return scripts[scripts.length - 1];
+        return scripts[scripts.length - 2];
     })();
 
     if (script.hasAttribute('data-page')) {
+        var page = script.getAttribute('data-page');
+        if (page == 'dashboard') {
+            debug('dashboard');
+            RuAoTrungThatAdmin.init();
+        } else if (page == 'quizcontest.create') {
+            debug('quizcontest.create');
+            QuizContestCreate.init();
+        } else {
 
+        }
     }
 
 });

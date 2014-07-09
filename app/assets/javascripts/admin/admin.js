@@ -1,8 +1,8 @@
 RuAoTrungThatAdmin = function() {
 
-    var _init = function() {
+    function _init() {
         _bindUIActions();
-    };
+    }
 
     function _bindUIActions() {
         $('#table-ranking').show();

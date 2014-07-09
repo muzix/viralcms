@@ -9,7 +9,7 @@
 @stop
 
 @section('title')
-<h3>Chủ đề</h3>
+
 @stop
 
 @section('breadcumb')
@@ -18,71 +18,39 @@
 </ul>
 @stop
 
-@section('content')
-<div class='col-lg-10' id='content'>
-@if (count($quizs) > 0)
-    <div id='table-quizs'>
-        <table class="table table-striped table-hover ">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Chủ đề</th>
-              <th>Trạng thái</th>
-              <th>Ngày cập nhật</th>
-              <th>Ngày tạo</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php $count=1; ?>
-            @foreach ($quizs as $quiz)
-            <tr>
-                <td>{{$count}}</td>
-                <td>{{$quiz->title}}</td>
-                <td>{{$user->description}}</td>
-                <td>{{$user->updated_at}}</td>
-                <td>{{$user->created_at}}</td>
-            </tr>
-            <?php $count++ ?>
-            @endforeach
-          </tbody>
-        </table>
-    </div>
-@else
-    <p class="text-muted">Bạn chưa có chủ đề nào.</p>
-    <button id="button-create-quiz" type="button" class="btn btn-primary">Tạo chủ đề mới</button>
-@endif
-</div>
-@stop
-
 @section('create-quiz')
 <div id='create-quiz'>
-    <form class="form-horizontal">
-      <fieldset>
-        <legend>Legend</legend>
+    <form class="form-horizontal" id='form-create-quiz'>
+      <fieldset id='legend-quiz-create'>
+        <legend>Chủ đề</legend>
         <div class="form-group">
-          <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+          <label for="inputTitle" class="col-lg-2 control-label">Tiêu đề</label>
           <div class="col-lg-10">
-            <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+            <input type="text" class="form-control" id="inputTitle" placeholder="Tiêu đề">
           </div>
         </div>
         <div class="form-group">
-          <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+          <label for="textArea" class="col-lg-2 control-label">Mô tả</label>
           <div class="col-lg-10">
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox"> Checkbox
-              </label>
-            </div>
+            <textarea class="form-control" rows="3" id="description"></textarea>
+            <span class="help-block">Mô tả chi tiết của sự kiện.</span>
           </div>
         </div>
         <div class="form-group">
-          <label for="textArea" class="col-lg-2 control-label">Textarea</label>
+          <label for="textArea" class="col-lg-2 control-label">Privacy</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="textArea"></textarea>
-            <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
+            <textarea class="form-control" rows="3" id="description"></textarea>
+            <span class="help-block">Privacy of this event.</span>
           </div>
         </div>
+        <div class="form-group">
+          <label for="textArea" class="col-lg-2 control-label">Luật và điều khoản</label>
+          <div class="col-lg-10">
+            <textarea class="form-control" rows="3" id="description"></textarea>
+            <span class="help-block">Luật và điều khoản của sự kiện.</span>
+          </div>
+        </div>
+
         <div class="form-group">
           <label class="col-lg-2 control-label">Radios</label>
           <div class="col-lg-10">
@@ -128,5 +96,45 @@
         </div>
       </fieldset>
     </form>
+</div>
+@stop
+
+@section('content')
+<div class='col-lg-10' id='content'>
+@if (count($quizs) > 0)
+    <div id='table-quizs'>
+        <table class="table table-striped table-hover ">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Chủ đề</th>
+              <th>Trạng thái</th>
+              <th>Ngày cập nhật</th>
+              <th>Ngày tạo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php $count=1; ?>
+            @foreach ($quizs as $quiz)
+            <tr>
+                <td>{{$count}}</td>
+                <td>{{$quiz->title}}</td>
+                <td>{{$user->description}}</td>
+                <td>{{$user->updated_at}}</td>
+                <td>{{$user->created_at}}</td>
+            </tr>
+            <?php $count++ ?>
+            @endforeach
+          </tbody>
+        </table>
+    </div>
+@else
+    <fieldset id='legend-quiz-empty'>
+        <legend>Chủ đề</legend>
+        <p class="text-muted">Bạn chưa có chủ đề nào.</p>
+    </fieldset>
+    <button id="button-create-quiz" type="button" class="btn btn-primary">Tạo chủ đề mới</button>
+    @yield('create-quiz')
+@endif
 </div>
 @stop

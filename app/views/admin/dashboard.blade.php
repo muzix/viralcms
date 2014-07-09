@@ -1,19 +1,26 @@
 @extends('admin.master')
 
+@section('javascript_tag')
+<?= javascript_include_tag('admin/application', ['data-page' => 'dashboard']) ?>
+@stop
+
 @section('current_app')
 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rủ ảo trúng thật <b class="caret"></b></a>
 @stop
 
 @section('panel')
+<div class='col-lg-2' id='content'>
 <div class="list-group">
   <a href="#" class="list-group-item" id='panel-ranking'>Bảng xếp hạng
   </a>
   <a href="#" class="list-group-item" id='panel-code'>Danh sách code
   </a>
 </div>
+</div>
 @stop
 
 @section('content')
+<div class='col-lg-10' id='content'>
 <div id='table-ranking'>
 <table class="table table-striped table-hover ">
   <thead>
@@ -75,5 +82,6 @@
     @endforeach
   </tbody>
 </table>
+</div>
 </div>
 @stop

@@ -15,12 +15,12 @@ class ConfideSetupUsersTable extends Migration {
         {
             $table->increments('id');
             $table->bigInteger('fbid')->unsigned();
-			$table->string('username');
-			$table->string('shortname');
-			$table->string('fullname');
-			$table->timestamp('birthday')->default('0000-00-00 00:00:00');
-			$table->string('gender');
-			$table->string('place');
+            $table->string('username');
+            $table->string('shortname');
+            $table->string('fullname');
+            $table->timestamp('birthday')->default('0000-00-00 00:00:00');
+            $table->string('gender');
+            $table->string('place');
             $table->string('email');
             $table->string('password');
             $table->string('confirmation_code');
@@ -38,9 +38,9 @@ class ConfideSetupUsersTable extends Migration {
         });
 
         Schema::table('user_login_history', function($table)
-		{
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-		});
+        {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
     }
 
     /**

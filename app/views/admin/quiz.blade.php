@@ -1,5 +1,9 @@
 @extends('admin.master')
 
+@section('javascript_tag')
+<?= javascript_include_tag('admin/application', ['data-page' => 'quizcontest.create']) ?>
+@stop
+
 @section('current_app')
 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quiz Contest <b class="caret"></b></a>
 @stop
@@ -45,7 +49,7 @@
     </div>
 @else
     <p class="text-muted">Bạn chưa có chủ đề nào.</p>
-    <button type="button" class="btn btn-primary">Tạo chủ đề mới</button>
+    <button id="button-create-quiz" type="button" class="btn btn-primary">Tạo chủ đề mới</button>
 @endif
 </div>
 @stop

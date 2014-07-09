@@ -1,0 +1,3 @@
+QuizContestCreate = function() {
+
+}();

@@ -20,37 +20,45 @@
 
 @section('create-quiz')
 <div id='create-quiz'>
-    <form class="form-horizontal" id='form-create-quiz'>
+
+    {{ Form::open(array('route' => 'createQuiz', 'class' => 'form-horizontal', 'id' => 'form-create-quiz', 'files' => true)) }}
       <fieldset id='legend-quiz-create'>
         <legend>Chủ đề</legend>
-        <div class="form-group">
-          <label for="inputTitle" class="col-lg-2 control-label">Tiêu đề</label>
+        <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+          <label for="title" class="col-lg-2 control-label">Tiêu đề</label>
           <div class="col-lg-10">
-            <input type="text" class="form-control" id="inputTitle" placeholder="Tiêu đề">
+            <input type="text" class="form-control" id="title" name="title" placeholder="Tiêu đề" value="{{Input::old('title')}}">
+            {{ Form::errorMsg('title') }}
           </div>
         </div>
         <div class="form-group">
-          <label for="textArea" class="col-lg-2 control-label">Mô tả</label>
+            <label for="banner" class="col-lg-2 control-label">Ảnh banner</label>
+            <div class="col-lg-10">
+                <input id="banner" name="banner" type="file" accept='image/*'>
+            </div>
+        </div>
+        <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
+          <label for="description" class="col-lg-2 control-label">Mô tả</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="description"></textarea>
-            <span class="help-block">Mô tả chi tiết của sự kiện.</span>
+            <textarea class="form-control" rows="3" id="description" name="description">{{Input::old('description')}}</textarea>
+            {{ Form::errorMsg('description') }}
           </div>
         </div>
         <div class="form-group">
-          <label for="textArea" class="col-lg-2 control-label">Privacy</label>
+          <label for="privacy" class="col-lg-2 control-label">Privacy</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="description"></textarea>
-            <span class="help-block">Privacy of this event.</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="textArea" class="col-lg-2 control-label">Luật và điều khoản</label>
-          <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="description"></textarea>
-            <span class="help-block">Luật và điều khoản của sự kiện.</span>
-          </div>
-        </div>
+            <textarea class="form-control" rows="3" id="privacy" name="privacy">{{Input::old('privacy')}}</textarea>
 
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="term" class="col-lg-2 control-label">Luật và điều khoản</label>
+          <div class="col-lg-10">
+            <textarea class="form-control" rows="3" id="term" name="term" >{{Input::old('term')}}</textarea>
+
+          </div>
+        </div>
+        <!--
         <div class="form-group">
           <label class="col-lg-2 control-label">Radios</label>
           <div class="col-lg-10">
@@ -88,53 +96,19 @@
             </select>
           </div>
         </div>
+    -->
         <div class="form-group">
           <div class="col-lg-10 col-lg-offset-2">
-            <button class="btn btn-default">Cancel</button>
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </div>
       </fieldset>
-    </form>
+    {{ Form::close() }}
 </div>
 @stop
 
 @section('content')
-<div class='col-lg-10' id='content'>
-@if (count($quizs) > 0)
-    <div id='table-quizs'>
-        <table class="table table-striped table-hover ">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Chủ đề</th>
-              <th>Trạng thái</th>
-              <th>Ngày cập nhật</th>
-              <th>Ngày tạo</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php $count=1; ?>
-            @foreach ($quizs as $quiz)
-            <tr>
-                <td>{{$count}}</td>
-                <td>{{$quiz->title}}</td>
-                <td>{{$user->description}}</td>
-                <td>{{$user->updated_at}}</td>
-                <td>{{$user->created_at}}</td>
-            </tr>
-            <?php $count++ ?>
-            @endforeach
-          </tbody>
-        </table>
-    </div>
-@else
-    <fieldset id='legend-quiz-empty'>
-        <legend>Chủ đề</legend>
-        <p class="text-muted">Bạn chưa có chủ đề nào.</p>
-    </fieldset>
-    <button id="button-create-quiz" type="button" class="btn btn-primary">Tạo chủ đề mới</button>
-    @yield('create-quiz')
-@endif
-</div>
+
+@yield('create-quiz')
+
 @stop

@@ -1,18 +1,15 @@
 QuizContestCreate = function() {
-    function _init () {
-        $('#create-quiz').hide();
+    function _init() {
         _bindUIActions();
     }
 
     function _bindUIActions() {
-        $('#button-create-quiz').click(function(){
-            $('#button-create-quiz').hide();
-            $('#legend-quiz-empty').hide();
-            $('#create-quiz').show();
+        $('#button-create-quiz').click(function() {
+            window.location.href = 'quiz-contest/quiz/create';
         });
     }
 
     return {
-        init:_init
+        init: _init
     };
 }();

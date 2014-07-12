@@ -19,10 +19,4 @@ class AdminController extends \BaseController {
         return View::make('admin.dashboard')->with(array("groups"=>$groups, "codes"=>$codes));
     }
 
-    public function showQuizDashboard() {
-
-        $quizs = Quiz::all();
-        return View::make('admin.quiz')->with(array("quizs"=>$quizs));
-    }
-
 }

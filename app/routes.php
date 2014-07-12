@@ -118,10 +118,15 @@ Route::get('invitation/rank/', 'StackController@rank');
 // Route for admin backend
 Route::get('admin', 'AdminController@showDashboard');
 Route::get('admin/ru-ao-trung-that', 'AdminController@showDashboard');
-Route::get('admin/quiz-contest', 'AdminController@showQuizDashboard');
-
+Route::get('admin/quiz-contest', 'QuizController@showList');
+Route::get('admin/quiz-contest/quiz/create', 'QuizController@showForm');
 // Route for apps
 Route::get('quiz', 'AppController@quiz');
+
+Route::group(array('before' => 'csrf'), function() {
+    Route::post('admin/quiz-contest/quiz/create', array('as' => 'createQuiz', 'uses' => 'QuizController@create'));
+    //Route::get('invitation/create/', 'StackController@create');
+});
 
 
 // Confide routes

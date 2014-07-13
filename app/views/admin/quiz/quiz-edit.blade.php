@@ -1,7 +1,7 @@
 @extends('admin.master')
 
 @section('javascript_tag')
-<?= javascript_include_tag('admin/application', ['data-page' => 'quiz-create']) ?>
+<?= javascript_include_tag('admin/application', ['data-page' => 'quiz-edit']) ?>
 @stop
 
 @section('current_app')
@@ -21,13 +21,13 @@
 @section('create-quiz')
 <div id='create-quiz'>
 
-    {{ Form::open(array('route' => 'createQuiz', 'class' => 'form-horizontal', 'id' => 'form-create-quiz', 'files' => true)) }}
+    {{ Form::open(array('route' => 'editQuiz', 'class' => 'form-horizontal', 'id' => 'form-edit-quiz', 'files' => true)) }}
       <fieldset id='legend-quiz-create'>
-        <legend>Tạo Quiz mới</legend>
+        <legend>Chỉnh sửa Quiz</legend>
         <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
           <label for="title" class="col-lg-2 control-label">Tiêu đề</label>
           <div class="col-lg-10">
-            <input type="text" class="form-control" id="title" name="title" placeholder="Tiêu đề" value="{{Input::old('title')}}">
+            <input type="text" class="form-control" id="title" name="title" placeholder="Tiêu đề" value="{{$quiz->title}}">
             {{ Form::errorMsg('title') }}
           </div>
         </div>
@@ -35,28 +35,30 @@
             <label for="banner" class="col-lg-2 control-label">Ảnh banner</label>
             <div class="col-lg-10">
                 <input id="banner" name="banner" type="file" accept='image/*'>
+                <img src="/assets/uploads/admin/quiz-contest/{{$quiz->banner}}" alt="Ảnh banner" width="120"></img>
             </div>
         </div>
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
           <label for="description" class="col-lg-2 control-label">Mô tả</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="description" name="description">{{Input::old('description')}}</textarea>
+            <textarea class="form-control" rows="3" id="description" name="description">{{$quiz->description}}</textarea>
             {{ Form::errorMsg('description') }}
           </div>
         </div>
         <div class="form-group">
           <label for="privacy" class="col-lg-2 control-label">Privacy</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="privacy" name="privacy">{{Input::old('privacy')}}</textarea>
+            <textarea class="form-control" rows="3" id="privacy" name="privacy">{{$quiz->privacy}}</textarea>
           </div>
         </div>
         <div class="form-group">
           <label for="term" class="col-lg-2 control-label">Luật và điều khoản</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="term" name="term" >{{Input::old('term')}}</textarea>
+            <textarea class="form-control" rows="3" id="term" name="term" >{{$quiz->term}}</textarea>
 
           </div>
         </div>
+        <input type="hidden" name="quizId" value="{{$quiz->id}}">
         <!--
         <div class="form-group">
           <label class="col-lg-2 control-label">Radios</label>
@@ -98,7 +100,7 @@
     -->
         <div class="form-group">
           <div class="col-lg-10 col-lg-offset-2">
-            <button type="submit" class="btn btn-primary">TẠO MỚI</button>
+            <button type="submit" class="btn btn-primary">CẬP NHẬT</button>
           </div>
         </div>
       </fieldset>

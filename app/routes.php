@@ -100,31 +100,35 @@
 // });
 
 // Route for event pagetab
-Route::get('event/inviteapp/', 'StackController@inviteapp');
-Route::post('event/inviteapp/', 'StackController@inviteapp');
-Route::get('event/invite/', 'StackController@invite');
-Route::post('event/invite/', 'StackController@invite');
-Route::post('user/autocreate/', 'UserController@autocreate');
-Route::get('user/autocreate/', 'UserController@autocreate');
+Route::get('event/inviteapp/', 				'StackController@inviteapp');
+Route::post('event/inviteapp/', 			'StackController@inviteapp');
+Route::get('event/invite/', 				'StackController@invite');
+Route::post('event/invite/', 				'StackController@invite');
+Route::post('user/autocreate/', 			'UserController@autocreate');
+Route::get('user/autocreate/', 				'UserController@autocreate');
 Route::group(array('before' => 'csrf'), function() {
-    Route::post('invitation/create/', 'StackController@create');
+    Route::post('invitation/create/', 	'StackController@create');
     //Route::get('invitation/create/', 'StackController@create');
 });
-Route::get('invitation/lists', 'StackController@lists');
-Route::get('image/create', 'ImageController@create');
-Route::post('image/create', 'ImageController@create');
-Route::get('invitation/rank/', 'StackController@rank');
+Route::get('invitation/lists', 				'StackController@lists');
+Route::get('image/create',					'ImageController@create');
+Route::post('image/create', 				'ImageController@create');
+Route::get('invitation/rank/', 				'StackController@rank');
 
 // Route for admin backend
-Route::get('admin', 'AdminController@showDashboard');
-Route::get('admin/ru-ao-trung-that', 'AdminController@showDashboard');
-Route::get('admin/quiz-contest', 'QuizController@showList');
-Route::get('admin/quiz-contest/quiz/create', 'QuizController@showForm');
+Route::get('admin', 							'AdminController@showDashboard');
+Route::get('admin/ru-ao-trung-that', 			'AdminController@showDashboard');
+Route::get('admin/quiz-contest', 				'QuizController@getList');
+Route::get('admin/quiz-contest/quiz/list', 		'QuizController@getList');
+Route::get('admin/quiz-contest/quiz/create', 	'QuizController@getCreate');
+Route::get('admin/quiz-contest/quiz/edit/{id}', 'QuizController@getEdit');
 // Route for apps
 Route::get('quiz', 'AppController@quiz');
 
 Route::group(array('before' => 'csrf'), function() {
     Route::post('admin/quiz-contest/quiz/create', array('as' => 'createQuiz', 'uses' => 'QuizController@create'));
+    Route::post('admin/quiz-contest/quiz/delete', array('as' => 'deleteQuiz', 'uses' => 'QuizController@delete'));
+    Route::post('admin/quiz-contest/quiz/edit', array('as' => 'editQuiz', 'uses' => 'QuizController@edit'));
     //Route::get('invitation/create/', 'StackController@create');
 });
 

@@ -27,7 +27,7 @@ class CreateQuizsTable extends Migration {
             $table->string('banner');
             $table->string('privacy');
             $table->string('term');
-            $table->integer('status');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
 

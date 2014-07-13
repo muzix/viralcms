@@ -39,9 +39,9 @@ $( document ).ready(function() {
         if (page == 'dashboard') {
             debug('dashboard');
             RuAoTrungThatAdmin.init();
-        } else if (page == 'quizcontest.create') {
-            debug('quizcontest.create');
-            QuizContestCreate.init();
+        } else if (page == 'quiz-list') {
+            debug('quiz-list');
+            QuizList.init();
         } else {
 
         }

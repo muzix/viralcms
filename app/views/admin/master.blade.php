@@ -12,7 +12,6 @@
     </head>
     <body>
         <div id="wrapper">
-
             <div class="navbar navbar-default">
                 <div class="container">
                   <div class="navbar-header">
@@ -31,8 +30,8 @@
                         @stop
                         @yield('current_app')
                         <ul class="dropdown-menu">
-                          <li><a href="ru-ao-trung-that">Rủ ảo trúng thật</a></li>
-                          <li><a href="quiz-contest">Quiz Contest</a></li>
+                          <li><a href="/admin/ru-ao-trung-that">Rủ ảo trúng thật</a></li>
+                          <li><a href="/admin/quiz-contest">Quiz Contest</a></li>
                         </ul>
                       </li>
                       <!--<li class="dropdown">
@@ -64,6 +63,7 @@
                 </div>
             </div>
             <div class="container">
+
                 @yield('breadcumb')
                 @yield('title')
                 @yield('panel')

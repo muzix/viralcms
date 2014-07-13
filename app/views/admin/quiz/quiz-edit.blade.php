@@ -19,7 +19,7 @@
 @stop
 
 @section('create-quiz')
-<div id='create-quiz'>
+<div id='edit-quiz'>
 
     {{ Form::open(array('route' => 'editQuiz', 'class' => 'form-horizontal', 'id' => 'form-edit-quiz', 'files' => true)) }}
       <fieldset id='legend-quiz-create'>

@@ -35,6 +35,7 @@
             <label for="banner" class="col-lg-2 control-label">Ảnh banner</label>
             <div class="col-lg-10">
                 <input id="banner" name="banner" type="file" accept='image/*'>
+                {{ Form::errorMsg('banner') }}
             </div>
         </div>
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">

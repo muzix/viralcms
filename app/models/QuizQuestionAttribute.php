@@ -8,4 +8,9 @@ class QuizQuestionAttribute extends \Eloquent {
     public static $rules = array();
 
     protected $table = 'quiz_question_attr';
+
+    public function quizQuestion()
+    {
+        return $this->belongsTo('QuizQuestion', 'quiz_question_id', 'id');
+    }
 }

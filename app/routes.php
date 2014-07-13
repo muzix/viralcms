@@ -122,6 +122,7 @@ Route::get('admin/quiz-contest', 				'QuizController@getList');
 Route::get('admin/quiz-contest/quiz/list', 		'QuizController@getList');
 Route::get('admin/quiz-contest/quiz/create', 	'QuizController@getCreate');
 Route::get('admin/quiz-contest/quiz/edit/{id}', 'QuizController@getEdit');
+Route::get('admin/quiz-contest/question',		array('as' => 'listQuestion', 'uses' => 'QuestionController@getList'));
 // Route for apps
 Route::get('quiz', 'AppController@quiz');
 

@@ -43,9 +43,13 @@
                 <td>{{$quiz->title}}</td>
                 <td>{{$quiz->description}}</td>
                 <td>
-                  <button data-quiz="{{$quiz->id}}" id="button-create-questions" type="button" class="btn-mini btn-link">
-                    @if(count($quiz->questions) === 0) Tạo câu hỏi @else {{count($quiz->questions)}} câu hỏi @endif
-                  </button>
+                  <!--<button data-quiz="{{$quiz->id}}" id="button-create-questions" type="button" class="btn-mini btn-link">-->
+                    @if(count($quiz->questions) === 0) 
+                    <a href="{{{ route('listQuestion', array('quizId' => $quiz->id)) }}}">Tạo câu hỏi</a> 
+                    @else {{count($quiz->questions)}} 
+                    câu hỏi 
+                    @endif
+                  <!-- </button> -->
                 </td>
                 <td>10h</td>
                 <td>@if($quiz->status == 0) Không hoạt động @else Đang chạy @endif</td>

@@ -6,13 +6,13 @@ class QuizController extends \BaseController {
         $rules = array(
             'title' => array('required'),
             'description'    => array('required'),
-            'banner' => 'image|mimes:jpeg,png|max:3000',
+            'banner' => 'image|mimes:jpeg,png,jpg|max:3000',
         );
 
         $messages = array(
             'required' => 'Phần :attribute không được để trống.',
             'banner.image' => 'Hãy chọn file ảnh định dạng jpg hoặc png.',
-            'banner.mime' => 'Hãy chọn file ảnh định dạng jpg hoặc png.',
+            'banner.mimes' => 'Hãy chọn file ảnh định dạng jpg hoặc png.',
             'banner.max' => 'Kích thước file ảnh không được vượt quá 3MB.'
         );
 
@@ -21,10 +21,11 @@ class QuizController extends \BaseController {
         if ($validation->fails())
         {
             // Validation has failed.
-            return Redirect::to('admin/quiz-contest/quiz/create')->withInput(Input::all())->withErrors($validation);
+            Input::flashOnly('title', 'description', 'privacy', 'term');
+            return Redirect::to('admin/quiz-contest/quiz/create')->withErrors($validation);
         }
 
-        // Validation has succeeded. Create new user.
+        // Validation has succeeded. Create new quiz.
 
         // receive banner image
         $file = Input::file('banner'); // your file upload input field in the form should be named 'file'
@@ -90,10 +91,11 @@ class QuizController extends \BaseController {
         if ($validation->fails())
         {
             // Validation has failed.
-            return Redirect::to('admin/quiz-contest/quiz/edit/'.$quizId)->with(array('quiz' => $quiz))->withErrors($validation);
+            Input::flashOnly('title', 'description', 'privacy', 'term');
+            return Redirect::to('admin/quiz-contest/quiz/create')->withErrors($validation);
         }
 
-        // Validation has succeeded. Create new user.
+        // Validation has succeeded. Create new quiz.
 
         // receive banner image
         $file = Input::file('banner'); // your file upload input field in the form should be named 'file'

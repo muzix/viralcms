@@ -14,4 +14,8 @@ class QuizQuestion extends \Eloquent {
         return $this->belongsTo('Quiz', 'quiz_id', 'id');
     }
 
+    public function questionAttributes() {
+		return $this->hasMany('QuizQuestionAttribute', 'quiz_question_id', 'id');
+	}
+
 }

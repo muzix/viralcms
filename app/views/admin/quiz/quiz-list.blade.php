@@ -21,6 +21,8 @@
 @section('content')
 
 @if (count($quizs) > 0)
+    <p><button id="button-create-quiz" type="button" class="btn btn-primary">Tạo chủ đề mới</button></p>
+
     <div id='table-quizs' class='col-lg-12'>
         <table class="table table-striped table-hover ">
           <thead>
@@ -44,10 +46,10 @@
                 <td>{{$quiz->description}}</td>
                 <td>
                   <!--<button data-quiz="{{$quiz->id}}" id="button-create-questions" type="button" class="btn-mini btn-link">-->
-                    @if(count($quiz->questions) === 0) 
-                    <a href="{{{ route('listQuestion', array('quizId' => $quiz->id)) }}}">Tạo câu hỏi</a> 
-                    @else {{count($quiz->questions)}} 
-                    câu hỏi 
+                    @if(count($quiz->questions) === 0)
+                    <a href="{{{ route('listQuestion', array('quizId' => $quiz->id)) }}}">Tạo câu hỏi</a>
+                    @else
+                    <a href="{{{ route('listQuestion', array('quizId' => $quiz->id)) }}}">{{count($quiz->questions)}} câu hỏi </a>
                     @endif
                   <!-- </button> -->
                 </td>
@@ -74,7 +76,6 @@
 
 {{ Form::open(array('route' => 'deleteQuiz', 'id' => 'form-delete-quiz')) }}
   <input type="hidden" value="-1" name="quizId" id="input-quiz-id">
-  {{ Form::token() }}
 {{ Form::close() }}
 
 @stop

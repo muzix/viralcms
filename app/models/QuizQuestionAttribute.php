@@ -9,6 +9,8 @@ class QuizQuestionAttribute extends \Eloquent {
 
     protected $table = 'quiz_question_attr';
 
+    public $timestamps = false;
+
     public function quizQuestion()
     {
         return $this->belongsTo('QuizQuestion', 'quiz_question_id', 'id');

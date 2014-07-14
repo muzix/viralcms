@@ -27,7 +27,7 @@ function debug(message) {
     }
 }
 
-$( document ).ready(function() {
+$(document).ready(function() {
 
     var script = document.currentScript || (function() {
         var scripts = document.getElementsByTagName("script");
@@ -42,6 +42,15 @@ $( document ).ready(function() {
         } else if (page == 'quiz-list') {
             debug('quiz-list');
             QuizList.init();
+        } else if (page == 'question-list') {
+            debug('question-list');
+            QuestionList.init();
+        } else if (page == 'question-create') {
+            debug('question-create');
+            QuestionCreate.init();
+        } else if (page == 'question-edit') {
+            debug('question-edit');
+            QuestionEdit.init();
         } else {
 
         }

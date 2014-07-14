@@ -50,7 +50,8 @@ return array(
 		'provider/assets/stylesheets',
 		'provider/assets/images',
 		'app/assets/fonts',
-        'app/assets/userphotos'
+        'app/assets/userphotos',
+        'app/assets/uploads/admin/quiz-contest'
 	),
 
 	/*

@@ -15,8 +15,9 @@ class DatabaseSeeder extends Seeder {
 		//$this->call('EventsTableSeeder');
 		//$this->call('LocationsTableSeeder');
 		//$this->call('ItemsTableSeeder');
-		$this->call('Items_distributionTableSeeder');
-		$this->call('AdminsTableSeeder');
+		//$this->call('Items_distributionTableSeeder');
+		//$this->call('AdminsTableSeeder');
+        $this->call('QuizQuestionAttrTypeTableSeeder');
 	}
 
 }

@@ -92,7 +92,7 @@ class QuizController extends \BaseController {
         {
             // Validation has failed.
             Input::flashOnly('title', 'description', 'privacy', 'term');
-            return Redirect::to('admin/quiz-contest/quiz/create')->withErrors($validation);
+            return Redirect::to('admin/quiz-contest/quiz/edit/'.$quizId)->withErrors($validation);
         }
 
         // Validation has succeeded. Create new quiz.
@@ -106,13 +106,13 @@ class QuizController extends \BaseController {
             $extension = $file->getClientOriginalExtension(); //if you need extension of the file
             $filename = uniqid().'.'.$extension;
             $uploadSuccess = Input::file('banner')->move($destinationPath, $filename);
-            if (!$uploadSuccess) {
+            if ($uploadSuccess == null) {
                 $filename = $quiz->banner;
             }
         } else {
             $filename = $quiz->banner;
         }
-        
+
         $quiz->title = Input::get('title');
         $quiz->description = Input::get('description');
         $quiz->privacy = Input::get('privacy');
@@ -120,7 +120,7 @@ class QuizController extends \BaseController {
         $quiz->banner = $filename;
         $quiz->save();
         return Redirect::to('admin/quiz-contest/');
-        
+
 
     }
 

@@ -123,6 +123,8 @@ Route::get('admin/quiz-contest/quiz/list', 		'QuizController@getList');
 Route::get('admin/quiz-contest/quiz/create', 	'QuizController@getCreate');
 Route::get('admin/quiz-contest/quiz/edit/{id}', 'QuizController@getEdit');
 Route::get('admin/quiz-contest/question',		array('as' => 'listQuestion', 'uses' => 'QuestionController@getList'));
+Route::get('admin/quiz-contest/question/create', array('as' => 'getQuestionCreate', 'uses' => 'QuestionController@getCreate'));
+Route::get('admin/quiz-contest/question/edit/{id}', array('as' => 'getQuestionEdit', 'uses' => 'QuestionController@getEdit'));
 // Route for apps
 Route::get('quiz', 'AppController@quiz');
 
@@ -130,6 +132,9 @@ Route::group(array('before' => 'csrf'), function() {
     Route::post('admin/quiz-contest/quiz/create', array('as' => 'createQuiz', 'uses' => 'QuizController@create'));
     Route::post('admin/quiz-contest/quiz/delete', array('as' => 'deleteQuiz', 'uses' => 'QuizController@delete'));
     Route::post('admin/quiz-contest/quiz/edit', array('as' => 'editQuiz', 'uses' => 'QuizController@edit'));
+    Route::post('admin/quiz-contest/question/create', array('as' => 'createQuestion', 'uses' => 'QuestionController@create'));
+    Route::post('admin/quiz-contest/question/edit', array('as' => 'editQuestion', 'uses' => 'QuestionController@edit'));
+    Route::post('admin/quiz-contest/question/delete', array('as' => 'deleteQuestion', 'uses' => 'QuestionController@delete'));
     //Route::get('invitation/create/', 'StackController@create');
 });
 

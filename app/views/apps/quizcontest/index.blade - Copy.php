@@ -16,7 +16,7 @@
         </div>
     </div>
 -->
-    <div class="banner-image"><img alt="Quiz Banner" width="800" src="/assets/{{$quiz->banner}}" onerror="this.src = '/assets/banner.png';"></img></div>
+    <div class="banner-image"></div>
     <!--
     <ul class="nav nav-tabs" style="margin-bottom: 15px;">
       <li class="active"><a href="#home" data-toggle="tab">Nội dung sự kiện</a></li>
@@ -28,11 +28,18 @@
 
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade active in" id="home">
-            {{$quiz->description}}
+            <p>Deliver Us From Evil được dựa trên một câu chuyện có thật về Sĩ quan cảnh sát Ralph Sarchie và những hình ảnh hãi hùng về ác quỷ cứ xuất hiện và ám ảnh anh cùng gia đình bé nhỏ, với những vụ án kỳ lạ với những thủ pháp giết người ghê rợn liên tục trong thành phố. Sự việc dần được hé lộ khi Ralph Sarchie hợp tác cùng một pháp sư trừ tà Mendoza. Phim LINH HỒN BÁO THÙ - DELIVER US FROM EVIL khởi chiếu tại các rạp trên toàn quốc từ ngày 04/07/2014.</p>
+
+            <p>Ngoài ra, Galaxy Thiên Ngân dành tặng các fan điện ảnh 3 thẻ quà tặng Galaxy Thiên Ngân có giá trị 200.000VND cho 3 bạn may mắn khi tham gia chương trình dưới đây:</p>
+
+            <p><b>Mỗi ngày vào lúc 10PM từ 07/07 - 09/07, trên ứng dụng này sẽ xuất hiện 1 đoạn clip và 1 câu hỏi khác nhau, xem video và trả lời chính xác câu hỏi này, các bạn có cơ hội nhận được phần thưởng trên. Tham gia trả lời càng nhiều, càng tăng xác xuất nhận giải, vì vậy cập nhật chương trình thường xuyên các bạn nhé!</b></p>
+
+            <p>(*) Kết quả chương trình sẽ được công bố tại ứng dụng này vào ngày 11/07/2014.</p>
+
             <fieldset id='legend-youtube'>
               <legend>BƯỚC 1: XEM ĐOẠN VIDEO DƯỚI ĐÂY</legend>
               <div id="quiz-video">
-                <iframe width="640" height="360" src="//www.youtube.com/embed/{{$youtube}}" frameborder="0" allowfullscreen></iframe>
+                <iframe width="640" height="360" src="//www.youtube.com/embed/6DgrpB7wdy0?list=UUq_28uJmbq4tlji7YAMZGtg" frameborder="0" allowfullscreen></iframe>
               </div>
             </fieldset>
             <br/>
@@ -40,7 +47,7 @@
             <fieldset id='legend-answer'>
               <legend>BƯỚC 2: TRẢ LỜI CÂU HỎI SAU</legend>
               <div class="form-group required">
-                <label for="answer" class="control-label">{{$question->question}}</label>
+                <label for="answer" class="control-label">Ai đánh guitar trong video trên?</label>
                 <input type="text" class="form-control" id="answer" name="answer" placeholder="Trả lời" value="">
               </div>
             </fieldset>

@@ -133,4 +133,28 @@ class QuizController extends \BaseController {
         return View::make('admin.quiz.quiz-create');
     }
 
+    public function lock() {
+        $quizId = Input::get('quizId');
+        $quiz = Quiz::find($quizId);
+
+        if ($quiz->id) {
+            $quiz->status = 0;
+            $quiz->save();
+        }
+
+        return Redirect::to('admin/quiz-contest/');
+    }
+
+    public function unlock() {
+        $quizId = Input::get('quizId');
+        $quiz = Quiz::find($quizId);
+
+        if ($quiz->id) {
+            $quiz->status = 1;
+            $quiz->save();
+        }
+
+        return Redirect::to('admin/quiz-contest/');
+    }
+
 }

@@ -42,6 +42,9 @@ $(document).ready(function() {
         } else if (page == 'quiz-list') {
             debug('quiz-list');
             QuizList.init();
+        } else if (page == 'quiz-create' || page == 'quiz-edit') {
+            debug('quiz-list, edit');
+            QuizCreate.init();
         } else if (page == 'question-list') {
             debug('question-list');
             QuestionList.init();

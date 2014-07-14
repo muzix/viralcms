@@ -35,12 +35,63 @@ QuizList = function() {
                             callback: function() {
                                 //alert("DELETE " + $(elem).attr('data-quiz'));
                                 //Example.show("uh oh, look out!");
-                                $('input#input-quiz-id').val($(elem).attr('data-quiz'));
+                                $('#form-delete-quiz input[name="quizId"]').val($(elem).attr('data-quiz'));
                                 $('#form-delete-quiz').submit(function(event) {
                                     //alert( "Handler for .submit() called." );
 
                                 });
                                 $('#form-delete-quiz').submit();
+                                showProgressModal();
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        $("button.button-toggle-quiz").each(function(i, elem) {
+            $(elem).click(function() {
+                var message = "";
+                var buttonTitle = "";
+                var className = "";
+                var form = "";
+                var action = $(elem).attr('data-action');
+                action = action.trim();
+                if (action == "lock") {
+                    message = "Bạn có muốn khóa chủ đề này?";
+                    buttonTitle = "Khóa!";
+                    className = "btn-danger";
+                    form = "#form-lock-quiz";
+                } else {
+                    message = "Bạn có muốn mở khóa chủ đề này?";
+                    buttonTitle = "Mở khóa!";
+                    className = "btn-success";
+                    form = "#form-unlock-quiz";
+                }
+                bootbox.dialog({
+                    message: message,
+                    title: "Thông báo",
+                    buttons: {
+                        success: {
+                            label: "Hủy",
+                            className: "btn-dedault",
+                            callback: function() {
+                                //Example.show("great success");
+                            }
+                        },
+                        main: {
+                            label: buttonTitle,
+                            className: className,
+                            callback: function() {
+                                //alert("DELETE " + $(elem).attr('data-quiz'));
+                                //Example.show("uh oh, look out!");
+                                $('#form-lock-quiz input[name="quizId"]').val($(elem).attr('data-quiz'));
+                                $('#form-unlock-quiz input[name="quizId"]').val($(elem).attr('data-quiz'));
+                                $(form).submit(function(event) {
+                                    //alert( "Handler for .submit() called." );
+
+                                });
+                                $(form).submit();
                                 showProgressModal();
                             }
                         }
@@ -62,6 +113,32 @@ QuizList = function() {
         init: _init
     };
 }();
+
+QuizCreate = function() {
+    function _init() {
+        _bindUIActions();
+    }
+
+    function _bindUIActions() {
+        var config = {
+            height: 300, // set editor height
+
+            minHeight: null, // set minimum height of editor
+            maxHeight: null, // set maximum height of editor
+
+            focus: false,
+        };
+        $('#summernote-description').summernote(config);
+        $('#summernote-privacy').summernote(config);
+        $('#summernote-term').summernote(config);
+    }
+
+    return {
+        init: _init
+    };
+}();
+
+QuizEdit = QuizCreate;
 
 QuestionList = function() {
     function _init() {
@@ -175,14 +252,16 @@ QuestionCreate = function() {
             $('#form-group-youtube').addClass('has-error');
             return;
         }
+        //log("http://gdata.youtube.com/feeds/api/videos/" + videoId);
         $.ajax({
-            url: "http://gdata.youtube.com/feeds/api/videos/" + videoId,
-            contentType: "application/json; text/plain; charset=utf-8",
+            url: "//gdata.youtube.com/feeds/api/videos/" + videoId,
+            contentType: "application/atom+xml",
             success: function(data) {
                 bootbox.alert('<iframe width="560" height="315" src="//www.youtube.com/embed/' + videoId + '" frameborder="0" allowfullscreen></iframe>');
                 $('#form-group-youtube').addClass('has-success');
             },
             error: function(error) {
+                //log(JSON.stringify(error));
                 bootbox.alert('Video không tồn tại.');
                 $('#form-group-youtube').addClass('has-error');
             }

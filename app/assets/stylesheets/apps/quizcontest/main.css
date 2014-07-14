@@ -5,7 +5,7 @@ div#wrapper {
     padding-bottom:20px;
     bottom:20px;
     width:810px;
-    background: transparent url('/assets/apps/quizcontest/wood_pattern.png') repeat;
+    /*background: transparent url('/assets/apps/quizcontest/wood_pattern.png') repeat;*/
 }
 
 div#content-wrapper {
@@ -53,4 +53,8 @@ div#quiz-video {
 #pleaseWaitDialog {
     padding-top:300px;
 
+}
+
+.form-group.required .control-label:after {
+  content:"*";color:red;
 }

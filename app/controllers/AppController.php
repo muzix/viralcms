@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AppController extends \Controller {
 
@@ -18,8 +19,21 @@ class AppController extends \Controller {
 		return json_encode($info, JSON_UNESCAPED_UNICODE);
 	}
 
-	public function quiz() {
-        return View::make('apps.quizcontest.index');
+	public function showQuizContest() {
+		App::error(function(ModelNotFoundException $e)
+		{
+		    return Response::make('Not Found', 404);
+		});
+
+		// find first active quiz
+		$quiz = Quiz::where('status', '=',  1)->firstOrFail();
+
+		// find question
+		$question = QuizQuestion::where('quiz_id', '=', $quiz->id)->where('status', '=', 1)->orderBy('priority')->firstOrFail();
+
+		$questionAttribute = QuizQuestionAttribute::where('quiz_question_id', '=', $question->id)->firstOrFail();
+
+        return View::make('apps.quizcontest.index')->with(array('quiz' => $quiz, 'question' => $question, 'youtube' => $questionAttribute->content));
     }
 
 }

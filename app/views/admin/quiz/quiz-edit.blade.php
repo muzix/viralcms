@@ -43,20 +43,23 @@
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
           <label for="description" class="col-lg-2 control-label">Mô tả</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="description" name="description">{{$quiz->description}}</textarea>
+            <!--<textarea class="form-control" rows="3" id="description" name="description">{{$quiz->description}}</textarea>-->
+            <div id="summernote-description">{{$quiz->description}}</div>
             {{ Form::errorMsg('description') }}
           </div>
         </div>
         <div class="form-group">
           <label for="privacy" class="col-lg-2 control-label">Privacy</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="privacy" name="privacy">{{$quiz->privacy}}</textarea>
+            <!--<textarea class="form-control" rows="3" id="privacy" name="privacy">{{$quiz->privacy}}</textarea>-->
+            <div id="summernote-privacy">{{$quiz->privacy}}</div>
           </div>
         </div>
         <div class="form-group">
           <label for="term" class="col-lg-2 control-label">Luật và điều khoản</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="term" name="term" >{{$quiz->term}}</textarea>
+            <!--<textarea class="form-control" rows="3" id="term" name="term" >{{$quiz->term}}</textarea>-->
+            <div id="summernote-term">{{$quiz->term}}</div>
 
           </div>
         </div>

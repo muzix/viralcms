@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => true,
+	'debug' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -27,7 +27,8 @@ return array(
 	*/
 
 	//'url' => 'http://localhost:8888/viralcms',
-    'url' => 'https://tibu.tk/viralcms/public/',
+    // 'url' => 'https://tibu.tk/viralcms/public/',
+    'url' => 'http://test.secure.dev/',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -122,11 +123,12 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'Way\Generators\GeneratorsServiceProvider',
+		//'Way\Generators\GeneratorsServiceProvider',
 		'Barryvdh\Cors\CorsServiceProvider',
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
+		//'Barryvdh\Debugbar\ServiceProvider',
 	),
 
 	/*

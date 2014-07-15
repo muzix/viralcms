@@ -19,7 +19,14 @@
 @stop
 
 @section('content')
-
+<?php
+    function truncateField($string) {
+        if (strlen($string) > 10) {
+            $string = substr($string, 0, 10) . "...";
+        }
+        return $string;
+    }
+?>
 @if (count($quizs) > 0)
     <p><button id="button-create-quiz" type="button" class="btn btn-primary">Tạo chủ đề mới</button></p>
 
@@ -43,15 +50,8 @@
             <tr>
                 <td>{{$count}}</td>
                 <td>{{$quiz->title}}</td>
-                <?php
-                    function truncateString($string) {
-                        if (strlen($string) > 10) {
-                            $string = substr($string, 0, 10) . "...";
-                        }
-                        return $string;
-                    }
-                ?>
-                <td><?php echo truncateString($quiz->description) ?></td>
+               
+                <td><?php echo truncateField($quiz->description) ?></td>
                 <td>
                   <!--<button data-quiz="{{$quiz->id}}" id="button-create-questions" type="button" class="btn-mini btn-link">-->
                     @if(count($quiz->questions) === 0)

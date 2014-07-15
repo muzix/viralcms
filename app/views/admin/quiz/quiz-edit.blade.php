@@ -36,7 +36,7 @@
             <div class="col-lg-10">
                 <input id="banner" name="banner" type="file" accept='image/*'>
                 <br/>
-                <img src="/assets/{{$quiz->banner}}" alt="Ảnh banner" width="120"
+                <img src="{{{url('/assets/'.$quiz->banner)}}}" alt="Ảnh banner" width="120"
                 onerror="this.src = 'http://placehold.it/120x120';"></img>
             </div>
         </div>

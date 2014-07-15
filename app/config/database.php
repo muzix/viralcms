@@ -62,6 +62,16 @@ return array(
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => 'glx_',
 		),
+		// 'mysql' => array(
+		// 	'driver'    => 'mysql',
+		// 	'host'      => 'localhost',
+		// 	'database'  => 'viralcms',
+		// 	'username'  => 'root',
+		// 	'password'  => 'root',
+		// 	'charset'   => 'utf8',
+		// 	'collation' => 'utf8_unicode_ci',
+		// 	'prefix'    => 'glx_',
+		// ),
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',

@@ -43,7 +43,15 @@
             <tr>
                 <td>{{$count}}</td>
                 <td>{{$quiz->title}}</td>
-                <td>{{$quiz->description}}</td>
+                <?php
+                    function truncateString($string) {
+                        if (strlen($string) > 10) {
+                            $string = substr($string, 0, 10) . "...";
+                        }
+                        return $string;
+                    }
+                ?>
+                <td><?php echo truncateString($quiz->description) ?></td>
                 <td>
                   <!--<button data-quiz="{{$quiz->id}}" id="button-create-questions" type="button" class="btn-mini btn-link">-->
                     @if(count($quiz->questions) === 0)

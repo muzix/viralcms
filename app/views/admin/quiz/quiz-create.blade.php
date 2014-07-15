@@ -41,23 +41,23 @@
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
           <label for="description" class="col-lg-2 control-label">Mô tả</label>
           <div class="col-lg-10">
-            <!-- <textarea class="form-control" rows="3" id="description" name="description">{{Input::old('description')}}</textarea> -->
-            <div id="summernote-description">{{$quiz->description}}</div>
+            <textarea class="form-control hide" rows="3" id="description" name="description">{{Input::old('description')}}</textarea>
+            <div id="summernote-description">{{Input::old('description')}}</div>
             {{ Form::errorMsg('description') }}
           </div>
         </div>
         <div class="form-group">
           <label for="privacy" class="col-lg-2 control-label">Privacy</label>
           <div class="col-lg-10">
-            <!-- <textarea class="form-control" rows="3" id="privacy" name="privacy">{{Input::old('privacy')}}</textarea> -->
-            <div id="summernote-privacy">{{$quiz->privacy}}</div>
+            <textarea class="form-control hide" rows="3" id="privacy" name="privacy">{{Input::old('privacy')}}</textarea>
+            <div id="summernote-privacy">{{Input::old('privacy')}}</div>
           </div>
         </div>
         <div class="form-group">
           <label for="term" class="col-lg-2 control-label">Luật và điều khoản</label>
           <div class="col-lg-10">
-            <!-- <textarea class="form-control" rows="3" id="term" name="term" >{{Input::old('term')}}</textarea> -->
-            <div id="summernote-term">{{$quiz->term}}</div>
+            <textarea class="form-control hide" rows="3" id="term" name="term" >{{Input::old('term')}}</textarea>
+            <div id="summernote-term">{{Input::old('term')}}</div>
           </div>
         </div>
         <!--
@@ -101,7 +101,7 @@
     -->
         <div class="form-group">
           <div class="col-lg-10 col-lg-offset-2">
-            <button type="submit" class="btn btn-primary">TẠO MỚI</button>
+            <button type="submit" class="btn btn-primary" id="button-create-quiz">TẠO MỚI</button>
           </div>
         </div>
       </fieldset>

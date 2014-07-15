@@ -16,7 +16,7 @@
         </div>
     </div>
 -->
-    <div class="banner-image"><img alt="Quiz Banner" width="800" src="/assets/{{$quiz->banner}}" onerror="this.src = '/assets/banner.png';"></img></div>
+    <div class="banner-image"><img alt="Quiz Banner" width="800" src="/viralcms/public/assets/{{$quiz->banner}}" onerror="this.src = '/viralcms/public/assets/banner.png';"></img></div>
     <!--
     <ul class="nav nav-tabs" style="margin-bottom: 15px;">
       <li class="active"><a href="#home" data-toggle="tab">Nội dung sự kiện</a></li>
@@ -36,48 +36,60 @@
               </div>
             </fieldset>
             <br/>
-            {{ Form::open(array('route' => 'submitAnswer', 'class' => 'form-horizontal', 'id' => 'form-answer')) }}
-            <fieldset id='legend-answer'>
-              <legend>BƯỚC 2: TRẢ LỜI CÂU HỎI SAU</legend>
-              <div class="form-group required">
-                <label for="answer" class="control-label">{{$question->question}}</label>
-                <input type="text" class="form-control" id="answer" name="answer" placeholder="Trả lời" value="">
-              </div>
-            </fieldset>
-            <br/>
+            {{ Form::open(array('route' => 'submitAnswer', 'class' => '', 'id' => 'form-answer')) }}
             <fieldset id='legend-info'>
-              <legend>BƯỚC 3: ĐIỀN THÔNG TIN CỦA BẠN</legend>
-              <div class="form-group required">
-                <label for="fullname" class="col-lg-2 control-label">Họ tên</label>
-                <div class="col-lg-10">
-                  <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Họ tên" value="">
-                </div>
+              <legend>BƯỚC 2: ĐIỀN ĐẦY ĐỦ THÔNG TIN VÀO FORM SAU</legend>
+              <div class="form-group required {{ $errors->has('fullname') ? 'has-error' : '' }}">
+                <label for="fullname" class="col-lg-10 control-label">Họ tên</label>
+                <!-- <div class="col-lg-10"> -->
+                  <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Họ tên" value="{{Input::old('fullname')}}">
+                  {{ Form::errorMsg('fullname') }}
+                <!-- </div> -->
+              </div>
+              <div class="form-group required {{ $errors->has('email') ? 'has-error' : '' }}">
+                <label for="email" class="col-lg-10 control-label">Email</label>
+                <!-- <div class="col-lg-10"> -->
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="{{Input::old('email')}}">
+                  {{ Form::errorMsg('email') }}
+                <!-- </div> -->
+              </div>
+              <div class="form-group required {{ $errors->has('address') ? 'has-error' : '' }}">
+                <label for="address" class="col-lg-10 control-label">Địa chỉ</label>
+                <!-- <div class="col-lg-10"> -->
+                  <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ" value="{{Input::old('address')}}">
+                  {{ Form::errorMsg('address') }}
+                <!-- </div> -->
+              </div>
+              <div class="form-group required {{ $errors->has('phone') ? 'has-error' : '' }}">
+                <label for="phone" class="col-lg-10 control-label">Điện thoại</label>
+                <!-- <div class="col-lg-10"> -->
+                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Điện thoại" value="{{Input::old('phone')}}">
+                  {{ Form::errorMsg('phone') }}
+                <!-- </div> -->
+              </div>
+              <div class="form-group required {{ $errors->has('answer') ? 'has-error' : '' }}">
+                <label for="answer" class="col-lg-10 control-label">{{$question->question}}</label>
+                <input type="text" class="form-control" id="answer" name="answer" placeholder="Trả lời" value="{{Input::old('answer')}}">
+                {{ Form::errorMsg('answer') }}
               </div>
               <div class="form-group required">
-                <label for="email" class="col-lg-2 control-label">Email</label>
-                <div class="col-lg-10">
-                  <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="">
-                </div>
-              </div>
-              <div class="form-group required">
-                <label for="phone" class="col-lg-2 control-label">Điện thoại</label>
-                <div class="col-lg-10">
-                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Điện thoại" value="">
-                </div>
-              </div>
-              <div class="form-group required">
-                <label class="col-md-2 control-label">&#160;</label>
-                <div class="col-md-8">
+                <!-- <label class="col-md-0 control-label">&#160;</label> -->
+                <div class="col-md-7">
+
                   <div class="checkbox">
-                    <label><input class="" id="term-accept" name="term-accept" type="checkbox" /> 
+                    <label><input class="" id="term-accept" name="term-accept" type="checkbox" />
                       Tôi đã đọc và đồng ý với thể lệ & điều khoản của sự kiện</label>
                   </div>
+                    {{ Form::errorMsg('term-accept') }}
                 </div>
+
               </div>
             </fieldset>
+            <input type="hidden" name="userId"  id="userId" value="{{$userId}}">
+            <input type="hidden" name="questionId" id="questionId" value="{{$question->id}}">
             <div class="form-group">
               <div class="col-lg-offset-5">
-                <button id="button-invite" type="button" class="btn btn-primary">Gửi đáp án</button>
+                <button id="button-submit-answer" type="submit" class="btn btn-primary">Tham gia</button>
               </div>
             </div>
             {{ Form::close() }}

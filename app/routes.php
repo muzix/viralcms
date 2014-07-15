@@ -126,7 +126,12 @@ Route::get('admin/quiz-contest/question',		array('as' => 'listQuestion', 'uses' 
 Route::get('admin/quiz-contest/question/create', array('as' => 'getQuestionCreate', 'uses' => 'QuestionController@getCreate'));
 Route::get('admin/quiz-contest/question/edit/{id}', array('as' => 'getQuestionEdit', 'uses' => 'QuestionController@getEdit'));
 // Route for apps
-Route::get('quiz-contest', 'AppController@showQuizContest');
+Route::get('quiz-contest', array('as' => 'getQuizContest', 'uses' => 'AppController@showQuizContest'));
+Route::post('quiz-contest', array('as' => 'getQuizContest', 'uses' => 'AppController@showQuizContest'));
+Route::get('pre-quiz', 'AppController@prepareInfo');
+Route::post('pre-quiz', 'AppController@prepareInfo');
+Route::get('quiz-contest/app',              'AppController@getQuizContestApp');
+Route::post('quiz-contest/app',              'AppController@getQuizContestApp');
 
 Route::group(array('before' => 'csrf'), function() {
     Route::post('admin/quiz-contest/quiz/create', array('as' => 'createQuiz', 'uses' => 'QuizController@create'));

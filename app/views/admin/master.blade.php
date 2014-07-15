@@ -30,8 +30,8 @@
                         @stop
                         @yield('current_app')
                         <ul class="dropdown-menu">
-                          <li><a href="/admin/ru-ao-trung-that">Rủ ảo trúng thật</a></li>
-                          <li><a href="/admin/quiz-contest">Quiz Contest</a></li>
+                          <li><a href="{{{secure_url('admin/ru-ao-trung-that')}}}">Rủ ảo trúng thật</a></li>
+                          <li><a href="{{{secure_url('admin/quiz-contest')}}}">Quiz Contest</a></li>
                         </ul>
                       </li>
                       <!--<li class="dropdown">

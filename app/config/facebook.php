@@ -3,9 +3,9 @@
 
 // Facebook app Config
 return array(
-        'appId' => '850948594931878',
-        'secret' => '79ce72cd746925408ae22096e15b3b4d',
-        'appUrl' => 'https://apps.facebook.com/850948594931878/',
-        'pageTabUrl' => 'https://www.facebook.com/linhhonbaothumovie/app_850948594931878',
+        'appId' => '631750210234079',
+        'secret' => 'f02acc58bd440d8b78f504f202ba67c5',
+        'appUrl' => 'https://apps.facebook.com/631750210234079/',
+        'pageTabUrl' => 'https://www.facebook.com/hoang1210/app_631750210234079',
         'defaultPassword' => 'g@l@xy'
     );

@@ -4,6 +4,8 @@ FacebookLoad = $.Deferred();
 
 var basepath = "//tibu.tk/viralcms/public/";
 var scorepath = "//tibu.tk/viralcms/public/";
+//var basepath = "//test.secure.dev/";
+//var scorepath = "//test.secure.dev/";
 var secret = "60176de80913eaeb5eaba70f79c8fe39";
 
 FacebookData = {};
@@ -32,60 +34,62 @@ function doGetInfo() {
         frictionlessRequests: true
     });
 
-    FB.Canvas.setAutoGrow();
+    FB.Canvas.setSize({
+        height: 1500
+    });
 
     // Additional initialization code here
-    /*
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-			// the user is logged in and has authenticated your
-			// app, and response.authResponse supplies
-			// the user's ID, a valid access token, a signed
-			// request, and the time the access token
-			// and signed request each expire
-			FacebookData.uid = response.authResponse.userID;
-			FacebookData.accessToken = response.authResponse.accessToken;
-			FB.api('/me', {access_token:FacebookData.accessToken}, function(response) {
-				FacebookData.username = response.name;
-				FacebookData.ulink = response.link;
-				FacebookData.name = response.username;
-				FacebookData.firstname = response.first_name;
-				FacebookData.middlename = response.middle_name;
-				FacebookData.lastname = response.last_name;
-				FacebookData.birthday = response.birthday;
-				if (response.hasOwnProperty('hometown')) {
-					FacebookData.hometown = response.hometown.name;
-				} else {
-					FacebookData.hometown = '';
-				}
-				if (response.hasOwnProperty('location')) {
-					FacebookData.hometown = response.location.name;
-				}
-				FacebookData.gender = response.gender;
-				FacebookData.email = response.email;
-				//release lock
-				FacebookLoad.resolve();
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            // the user is logged in and has authenticated your
+            // app, and response.authResponse supplies
+            // the user's ID, a valid access token, a signed
+            // request, and the time the access token
+            // and signed request each expire
+            FacebookData.uid = response.authResponse.userID;
+            FacebookData.accessToken = response.authResponse.accessToken;
+            FB.api('/me', {
+                access_token: FacebookData.accessToken
+            }, function(response) {
+                FacebookData.username = response.name;
+                FacebookData.ulink = response.link;
+                FacebookData.name = response.username;
+                FacebookData.firstname = response.first_name;
+                FacebookData.middlename = response.middle_name;
+                FacebookData.lastname = response.last_name;
+                FacebookData.birthday = response.birthday;
+                if (response.hasOwnProperty('hometown')) {
+                    FacebookData.hometown = response.hometown.name;
+                } else {
+                    FacebookData.hometown = '';
+                }
+                if (response.hasOwnProperty('location')) {
+                    FacebookData.hometown = response.location.name;
+                }
+                FacebookData.gender = response.gender;
+                FacebookData.email = response.email;
+                //release lock
+                FacebookLoad.resolve();
 
-				submitUserInfo(FacebookData.uid, FacebookData.username, FacebookData.name, FacebookData.firstname, FacebookData.middlename, FacebookData.lastname, FacebookData.birthday, FacebookData.hometown, FacebookData.gender, FacebookData.email, FacebookData.ulink);
+                submitUserInfo(FacebookData.uid, FacebookData.username, FacebookData.name, FacebookData.firstname, FacebookData.middlename, FacebookData.lastname, FacebookData.birthday, FacebookData.hometown, FacebookData.gender, FacebookData.email, FacebookData.ulink);
 
-				console.log(FacebookData.uid);
-				console.log(FacebookData.username);
-				console.log(FacebookData.accessToken);
+                console.log(FacebookData.uid);
+                console.log(FacebookData.username);
+                console.log(FacebookData.accessToken);
 
-                doListFriend();
+                //doListFriend();
 
-			});
+            });
 
-		} else if (response.status === 'not_authorized') {
-			// the user is logged in to Facebook,
-			// but has not authenticated your app
-			//window.top.location = "https://www.facebook.com/dialog/oauth?client_id=138482263019716&redirect_uri=https://apps.facebook.com/138482263019716/";
-		} else {
-			// the user isn't logged in to Facebook.
-			//window.top.location = "https://www.facebook.com/dialog/oauth?client_id=138482263019716&redirect_uri=https://apps.facebook.com/138482263019716/";
-		}
-	});
-    */
+        } else if (response.status === 'not_authorized') {
+            // the user is logged in to Facebook,
+            // but has not authenticated your app
+            //window.top.location = "https://www.facebook.com/dialog/oauth?client_id=138482263019716&redirect_uri=https://apps.facebook.com/138482263019716/";
+        } else {
+            // the user isn't logged in to Facebook.
+            //window.top.location = "https://www.facebook.com/dialog/oauth?client_id=138482263019716&redirect_uri=https://apps.facebook.com/138482263019716/";
+        }
+    });
 }
 
 function submitUserInfo(uid, username, name, first, middle, last, birthday, hometown, gender, email, link) {
@@ -108,7 +112,8 @@ function submitUserInfo(uid, username, name, first, middle, last, birthday, home
         },
         success: function(data, textStatus, jqXHR) {
             //alert(JSON.stringify(data));
-            $('#pleaseWaitDialog').modal('hide');
+            //$('#pleaseWaitDialog').modal('hide');
+            window.location.href = "/viralcms/public/quiz-contest?userId=" + data.userId;
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('Server quá tải, xin bạn vui lòng thử lại');
@@ -330,6 +335,7 @@ function doPostImage(filepath, friendName) {
 
 //Start load fb info
 loadFacebookInfo();
+//submitUserInfo('100003095200864', 'tran.p.trung.1', 'tran.p.trung.1', '', '', '', '', '', '', 'spiderman.tpt@gmail.com', '');
 
 function zfill1(number, size) {
     number = number.toString();
@@ -338,7 +344,7 @@ function zfill1(number, size) {
 }
 
 $(document).ready(function() {
-    $('#pleaseWaitDialog').modal('hide');
+    //$('#pleaseWaitDialog').modal('hide');
 
     /*
     $('button#button-invite').click(function() {

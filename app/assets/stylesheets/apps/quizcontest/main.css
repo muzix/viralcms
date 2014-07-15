@@ -33,6 +33,7 @@ div#quiz-video {
     background-size: cover;
     height: 400px;
     min-width: 800px;
+    margin-bottom: 50px;
 }
 
 .like-image{

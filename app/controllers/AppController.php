@@ -19,21 +19,93 @@ class AppController extends \Controller {
 		return json_encode($info, JSON_UNESCAPED_UNICODE);
 	}
 
+    public function getQuizContestApp() {
+        echo("<script> window.top.location.href='" . Config::get('facebook.pageTabUrl') . "'</script>");
+    }
+
+    public function prepareInfo() {
+        //return View::make('apps.quizcontest.prepare');
+        $rawSignedRequest = Input::get('signed_request');
+
+        $config = array();
+        $config['appId'] = Config::get('facebook.appId');
+        $config['secret'] = Config::get('facebook.secret');
+        $config['fileUpload'] = true; // optional
+        $facebook = new Facebook($config);
+        $signed_request = $facebook->getSignedRequest();
+        $like_status = $signed_request["page"]["liked"];
+        if ($like_status) { //If the page is liked then display full app.
+            //If already authorized
+            $pass = false;
+            if(isset($signed_request["oauth_token"])) {
+                //check extented permission
+                $permissions = $facebook->api("/me/permissions");
+                if(array_key_exists('publish_actions', $permissions['data'][0])) {
+                 // granted
+                    $pass = true;
+                } else {
+                 // skipped
+                    $pass = false;
+                }
+                $pass = true;
+            }
+            if(!$pass) {
+            //if(0){
+                $params = array(
+                  'scope' => 'public_profile, user_friends, email',
+                  'redirect_uri' => Config::get('facebook.pageTabUrl')
+                );
+                $loginUrl = $facebook->getLoginUrl($params);
+                echo("<script> window.top.location.href='" . $loginUrl . "'</script>");
+                //echo("<script> window.open('" . $loginUrl . "');</script>");
+            } else {
+                return View::make('apps.quizcontest.prepare');
+            }
+        } else {
+            //If the page is not liked then do this.
+            return View::make('like');
+        }
+    }
+
 	public function showQuizContest() {
 		App::error(function(ModelNotFoundException $e)
 		{
 		    return Response::make('Not Found', 404);
 		});
+        // find user
+        $userId = Input::get('userId');
+        $user = User::find($userId);
+        if ($user->id) {
 
-		// find first active quiz
-		$quiz = Quiz::where('status', '=',  1)->firstOrFail();
+            // get current active quiz
+            $quiz = Quiz::where('status', 1)->orderBy('id')->get()->first();
+            if (!$quiz) {
+                return Response::make('Not Found', 404);
+            }
 
-		// find question
-		$question = QuizQuestion::where('quiz_id', '=', $quiz->id)->where('status', '=', 1)->orderBy('priority')->firstOrFail();
+            // get current active question
+            $question = QuizQuestion::where('quiz_id', $quiz->id)->where('status', 1)->orderBy('priority')->get()->first();
+            if (!$question) {
+                return Response::make('Not Found', 404);
+            }
 
-		$questionAttribute = QuizQuestionAttribute::where('quiz_question_id', '=', $question->id)->firstOrFail();
+            $answer = UserAnswer::where('user_id', $user->id)->where('question_id', $question->id)->get()->first();
+            if ($answer) {
+                //return View::make('apps.quizcontest.comeback');
+            }
 
-        return View::make('apps.quizcontest.index')->with(array('quiz' => $quiz, 'question' => $question, 'youtube' => $questionAttribute->content));
+            // find first active quiz
+            //$quiz = Quiz::where('status', '=',  1)->firstOrFail();
+
+            // find question
+            //$question = QuizQuestion::where('quiz_id', '=', $quiz->id)->where('status', '=', 1)->orderBy('priority')->firstOrFail();
+
+            $questionAttribute = QuizQuestionAttribute::where('quiz_question_id', '=', $question->id)->firstOrFail();
+            return View::make('apps.quizcontest.index')->with(array('quiz' => $quiz, 'question' => $question, 'youtube' => $questionAttribute->content, 'userId' => $user->id));
+        }
+
+        return Response::make('Please try again', 404);
+
     }
 
 }

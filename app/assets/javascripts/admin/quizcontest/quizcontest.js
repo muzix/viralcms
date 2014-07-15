@@ -131,6 +131,20 @@ QuizCreate = function() {
         $('#summernote-description').summernote(config);
         $('#summernote-privacy').summernote(config);
         $('#summernote-term').summernote(config);
+
+        $('button#button-create-quiz').click(function(e) {
+            //log($('#summernote-description').code());
+            $('textarea#description').html($('#summernote-description').code());
+            $('textarea#privacy').html($('#summernote-privacy').code());
+            $('textarea#term').html($('#summernote-term').code());
+        });
+
+        $('button#button-edit-quiz').click(function(e) {
+            //log($('#summernote-description').code());
+            $('textarea#description').html($('#summernote-description').code());
+            $('textarea#privacy').html($('#summernote-privacy').code());
+            $('textarea#term').html($('#summernote-term').code());
+        });
     }
 
     return {
@@ -147,13 +161,13 @@ QuestionList = function() {
 
     function _bindUIActions() {
         $('#button-create-question').click(function() {
-            window.location.href = '/admin/quiz-contest/question/create?quizId=' + $('#button-create-question').attr('data-quiz');
+            window.location.href = 'question/create?quizId=' + $('#button-create-question').attr('data-quiz');
         });
 
         // Bind click event to all edit button
         $("button.button-edit-question").each(function(i, elem) {
             $(elem).click(function() {
-                var redirectPath = '/admin/quiz-contest/question/edit/' + $(elem).attr('data-question');
+                var redirectPath = 'question/edit/' + $(elem).attr('data-question');
                 window.location.href = redirectPath;
             });
         });
@@ -329,7 +343,7 @@ QuestionEdit = function() {
             return;
         }
         $.ajax({
-            url: "http://gdata.youtube.com/feeds/api/videos/" + videoId,
+            url: "//gdata.youtube.com/feeds/api/videos/" + videoId,
             contentType: "application/json; text/plain; charset=utf-8",
             success: function(data) {
                 bootbox.alert('<iframe width="560" height="315" src="//www.youtube.com/embed/' + videoId + '" frameborder="0" allowfullscreen></iframe>');

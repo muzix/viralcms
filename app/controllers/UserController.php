@@ -112,6 +112,7 @@ class UserController extends BaseController {
         {
             // Get validation errors (see Ardent package)
             //echo "Exist";
+            $user = User::where('email', $email)->get()->first();
         }
 
         if ($email == '' && $username == '') {
@@ -132,7 +133,7 @@ class UserController extends BaseController {
             // caught by the authentication filter IE Redirect::guest('user/login').
             // Otherwise fallback to '/'
             // Fix pull #145
-            $response = array("status" => "LoggedIn");
+            $response = array("status" => "LoggedIn", "userId" => $user->id);
             return Response::json($response);
         } else {
             echo "NotLogged";

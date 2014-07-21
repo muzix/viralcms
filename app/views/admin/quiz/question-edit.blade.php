@@ -25,14 +25,15 @@
       <fieldset id='legend-question-edit'>
         <legend>Chỉnh sửa câu hỏi</legend>
         <div class="form-group {{ $errors->has('youtube') ? 'has-error' : '' }}" id="form-group-youtube">
-          <label for="youtube" class="col-lg-2 control-label">Youtube Clip ID</label>
-          <div class="col-lg-2">
-            <input type="text" class="form-control" id="youtube" name="youtube" placeholder="Youtube Clip ID" value="{{$question->questionAttributes[0]->content}}">
+          <label for="youtube" class="col-lg-2 control-label">Nội dung câu đố</label>
+          <div class="col-lg-10">
+            <textarea class="form-control hide" rows="3" id="youtube" name="youtube">{{$question->questionAttributes[0]->content}}</textarea>
+            <div id="summernote-youtube">{{$question->questionAttributes[0]->content}}</div>
             {{ Form::errorMsg('youtube') }}
           </div>
-          <div class="col-lg-2">
+          {{--<div class="col-lg-2">
             <button type="button" class="btn btn-success btn-sm" id="button-show-youtube"><i class="fa fa-youtube-play"></i> Kiểm tra video</button>
-          </div>
+          </div>--}}
         </div>
         <div class="form-group {{ $errors->has('question') ? 'has-error' : '' }}">
           <label for="question" class="col-lg-2 control-label">Câu hỏi</label>

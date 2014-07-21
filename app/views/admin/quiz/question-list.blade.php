@@ -32,6 +32,7 @@
               <th>Đáp án</th>
               <th>Thứ tự</th>
               <th>Trạng thái</th>
+              <th>Xem trả lời</th>
               <th>Thao tác</th>
             </tr>
           </thead>
@@ -45,6 +46,13 @@
                 <td>{{$question->answer}}</td>
                 <td>{{$question->priority}}</td>
                 <td>{{$question->status}}</td>
+                <td>
+                    @if(count($question->answers) > 0)
+                    <a href="{{{ route('listAnswer', array('questionId' => $question->id)) }}}">{{count($question->answers)}} trả lời </a>
+                    @else
+                    {{count($question->answers)}} trả lời
+                    @endif
+                </td>
                 <td>
                     <button class="btn btn-primary btn-xs button-edit-question" data-question="{{$question->id}}"><i class="fa fa-edit"></i> Sửa </button>
                     <button class="btn btn-danger btn-xs button-delete-question" data-question="{{$question->id}}"><i class="fa fa-trash-o"></i> Xoá </button>

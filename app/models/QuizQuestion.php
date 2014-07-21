@@ -18,4 +18,8 @@ class QuizQuestion extends \Eloquent {
 		return $this->hasMany('QuizQuestionAttribute', 'quiz_question_id', 'id');
 	}
 
+    public function answers() {
+        return $this->hasMany('UserAnswer', 'question_id', 'id');
+    }
+
 }

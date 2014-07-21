@@ -297,7 +297,7 @@ QuestionEdit = function() {
     }
 
     function _setupUI() {
-        if ($('input#youtube').val() !== '') {
+        if ($('input#youtube').val() !== undefined) {
             $('button#button-show-youtube').show();
             $('#form-group-youtube').addClass('has-success');
         } else {
@@ -306,6 +306,7 @@ QuestionEdit = function() {
     }
 
     function _bindUIActions() {
+        /*
         $('input#youtube').focusout(function() {
             if ($('input#youtube').val() !== '') {
                 $('button#button-show-youtube').show();
@@ -333,7 +334,17 @@ QuestionEdit = function() {
                 bootbox.alert("Vui lòng nhập đúng video id và ấn kiểm tra.");
                 e.preventDefault();
             }
-        });
+        });*/
+
+        var config = {
+            height: 300, // set editor height
+
+            minHeight: null, // set minimum height of editor
+            maxHeight: null, // set maximum height of editor
+
+            focus: false,
+        };
+        $('#summernote-youtube').summernote(config);
     }
 
     function checkVideoExists(videoId) {

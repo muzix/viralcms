@@ -65,4 +65,14 @@ class AnswerController extends \BaseController {
 
 	}
 
+     public function getList() {
+        $questionId = Input::get('questionId', -1);
+        if ($questionId == -1) {
+            return Response::make('Not Found', 404);
+        }
+
+        $answers = UserAnswer::with('user')->where('question_id', $questionId)->get();
+        return View::make('admin.quiz.answer-list')->with(array('answers' => $answers));
+    }
+
 }

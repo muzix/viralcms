@@ -8,7 +8,7 @@ class QuestionController extends \BaseController {
 			return Redirect::to('admin/quiz-contest/');
 		}
 
-		$quizWithQuestion = Quiz::with('questions.questionAttributes')->where('id', $quizId)->get();
+		$quizWithQuestion = Quiz::with(array('questions.questionAttributes', 'questions.answers'))->where('id', $quizId)->get();
 		// return $quizWithQuestion;
 
 		return View::make('admin.quiz.question-list')->with(array('quizs' => $quizWithQuestion));

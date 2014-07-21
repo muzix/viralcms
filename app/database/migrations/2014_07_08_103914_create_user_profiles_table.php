@@ -18,6 +18,7 @@ class CreateUserProfilesTable extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->string('phone');
+            $table->string('address');
             $table->string('quiz_tag');
 			$table->foreign('user_id')->references('id')->on('users');
         });

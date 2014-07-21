@@ -70,7 +70,7 @@ class CreateQuizsTable extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('quiz_question_id')->unsigned();
             $table->integer('type_id')->unsigned();
-            $table->string('content');
+            $table->longtext('content');
             $table->foreign('quiz_question_id')->references('id')->on('quiz_questions');
             $table->foreign('type_id')->references('id')->on('quiz_question_attr_type');
         });

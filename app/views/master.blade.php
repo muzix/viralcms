@@ -15,6 +15,10 @@
           ga('send', 'pageview');
 
         </script>
+        @section('css_tag')
+
+        @stop
+        @yield('css_tag')
 	</head>
     <body>
         <div id="wrapper">

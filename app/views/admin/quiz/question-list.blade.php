@@ -49,10 +49,17 @@
             <tr>
                 <td>{{$count}}</td>
                 <td><?php echo truncateField($question->questionAttributes[0]->content) ?></td>
-                <td>{{$question->question}}</td>
+                <td><?php
+                    if ($question->question_type_id == 1) {
+                        echo truncateField($question->question);
+                    } else {
+                        $tmps = explode(':', $question->question);
+                        echo truncateField($tmps[0]);
+                    }
+                 ?></td>
                 <td>{{$question->answer}}</td>
                 <td>{{$question->priority}}</td>
-                <td>{{$question->status}}</td>
+                <td>@if($question->status == 1) Mở @else Đóng @endif</td>
                 <td>
                     @if(count($question->answers) > 0)
                     <a href="{{{ route('listAnswer', array('questionId' => $question->id)) }}}">{{count($question->answers)}} trả lời </a>

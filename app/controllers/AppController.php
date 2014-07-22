@@ -92,19 +92,26 @@ class AppController extends \Controller {
                 if (!$question) {
                     return Response::make('Not Found', 404);
                 } else {
-                    // make new question active
-                    $question->status = 1;
-                    $question->unlocked_at = Carbon::now();
-                    $question->save();
+                    // make new question active if after release schedule
+                    $schedule = QuizSchedule::where('quiz_id', $quiz->id)->get();
+                    $now = Carbon::now();
+                    $start_time = new Carbon($schedule->start_time, 'Asia/Ho_Chi_Minh');
+                    if ($now->gt($start_time)) {
+                        $question->status = 1;
+                        $question->unlocked_at = Carbon::now();
+                        $question->save();
+                    } else {
+                        return Response::make('Not Found', 404);
+                    }
                 }
             } else {
                 // check for unlocked_time
-                
+
                 $timeUnlocked = new Carbon($question->unlocked_at, 'Asia/Ho_Chi_Minh');
                 //var_dump($timeUnlocked);return;
                 $now = Carbon::now();
                 //var_dump($now);return;
-                $timeExist = $now->diffInMinutes($timeUnlocked); 
+                $timeExist = $now->diffInMinutes($timeUnlocked);
                 //var_dump($timeExist);return;
                 if ($timeExist >= 60*24) {
                     $question->status = 0;

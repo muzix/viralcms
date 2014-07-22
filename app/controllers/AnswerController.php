@@ -4,7 +4,7 @@ class AnswerController extends \BaseController {
 
 	public function answer() {
 		$rules = array(
-            'fullname' => 'required|alpha_num',
+            'fullname' => 'required',
             'email'    => 'required|email',
             'address' => 'required',
             'phone' => 'required|digits_between:0,20',
@@ -21,7 +21,7 @@ class AnswerController extends \BaseController {
             'term-accept.required' => 'Bạn cần đồng ý với thể lệ và điều khoản chương trình.',
             //'required' => 'Phần :attribute không được để trống.',
             'email.email' => 'Email phải hợp lệ.',
-            'fullname.alpha_num' => 'Họ tên chỉ chứa chữ số và chữ cái',
+            //'fullname.alpha_num' => 'Họ tên chỉ chứa chữ số và chữ cái',
             'phone.digits_between' => 'Số điện thoại không hợp lệ'
         );
 
@@ -61,8 +61,10 @@ class AnswerController extends \BaseController {
             $answer->question_id = $questionId;
             $answer->answer = Input::get('answer');
             $answer->save();
+            return View::make('apps.quizcontest.answered')->with(array('user' => $user));
         }
 
+        return Response::make('Not Found', 404);
 	}
 
      public function getList() {

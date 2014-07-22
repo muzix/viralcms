@@ -26,11 +26,23 @@ class QuestionController extends \BaseController {
     }
 
     public function create() {
-        $rules = array(
-            'youtube' => array('required'),
-            'question'    => array('required'),
-            'answer' => array('required'),
-        );
+
+        $questionType = Input::get('question-type');
+        $rule;
+
+        if ($questionType == 'text') {
+            $rules = array(
+                'youtube' => array('required'),
+                'question'    => array('required'),
+                'answer' => array('required'),
+            );
+        } else if ($questionType == 'choice') {
+            $rules = array(
+                'youtube' => array('required'),
+                'question'    => array('required'),
+            );
+        }
+
 
         $messages = array(
             'required' => 'Phần :attribute không được để trống.',
@@ -46,28 +58,62 @@ class QuestionController extends \BaseController {
         }
 
         // Validation succeed, create new question
-        $question = new QuizQuestion;
-        $question->question = Input::get('question');
-        $question->answer = Input::get('answer');
-        $question->status = 1;
-        $question->quiz_id = Input::get('quizId');
-        $question->question_type_id = 1;
-        $question->save();
-
-        if ($question->id) {
-            $question->priority = $question->id;
+        if ($questionType == 'text') {
+            $question = new QuizQuestion;
+            $question->question = Input::get('question');
+            $question->answer = Input::get('answer');
+            $question->status = 1;
+            $question->quiz_id = Input::get('quizId');
+            $question->question_type_id = 1;
             $question->save();
 
-            // create question attribute
-            $attribute = new QuizQuestionAttribute;
-            $attribute->type_id = 1;
-            $attribute->quiz_question_id = $question->id;
-            $attribute->content = Input::get('youtube');
-            $attribute->save();
+            if ($question->id) {
+                $question->priority = $question->id;
+                $question->save();
+
+                // create question attribute
+                $attribute = new QuizQuestionAttribute;
+                $attribute->type_id = 1;
+                $attribute->quiz_question_id = $question->id;
+                $attribute->content = Input::get('youtube');
+                $attribute->save();
+            }
+
+            $redirect = route('listQuestion', array('quizId' => Input::get('quizId')));
+            return Redirect::to($redirect);
+        } else if ($questionType == 'choice') {
+            // Serialize question
+            $choices = Input::get('choices');
+            $choiceAnswer = Input::get('choice-answer');
+            $comma_separated = implode(";", $choices);
+
+            //var_dump(Input::get('question')); return;
+            $questionString = Input::get('question') . ':' . $comma_separated;
+
+            $question = new QuizQuestion;
+            $question->question = $questionString;
+            $question->answer = $choiceAnswer;
+            $question->status = 1;
+            $question->quiz_id = Input::get('quizId');
+            $question->question_type_id = 2;
+            $question->save();
+
+            if ($question->id) {
+                $question->priority = $question->id;
+                $question->save();
+
+                // create question attribute
+                $attribute = new QuizQuestionAttribute;
+                $attribute->type_id = 1;
+                $attribute->quiz_question_id = $question->id;
+                $attribute->content = Input::get('youtube');
+                $attribute->save();
+            }
+
+            $redirect = route('listQuestion', array('quizId' => Input::get('quizId')));
+            return Redirect::to($redirect);
         }
 
-        $redirect = route('listQuestion', array('quizId' => Input::get('quizId')));
-        return Redirect::to($redirect);
     }
 
     public function getEdit($questionId) {

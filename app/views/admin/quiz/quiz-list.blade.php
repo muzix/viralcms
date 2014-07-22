@@ -50,7 +50,7 @@
             <tr>
                 <td>{{$count}}</td>
                 <td>{{$quiz->title}}</td>
-               
+
                 <td><?php echo truncateField($quiz->description) ?></td>
                 <td>
                   <!--<button data-quiz="{{$quiz->id}}" id="button-create-questions" type="button" class="btn-mini btn-link">-->
@@ -61,7 +61,7 @@
                     @endif
                   <!-- </button> -->
                 </td>
-                <td>10h</td>
+                <td>{{$quiz->schedule->start_time}}</td>
                 <td>@if($quiz->status == 0) Đang khóa @else Mở @endif</td>
                 <td>{{$quiz->updated_at}}</td>
                 <td>

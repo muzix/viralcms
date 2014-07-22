@@ -1,5 +1,19 @@
 @extends('master')
 
+@section('css_tag')
+<style>
+div#wrapper {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+    padding-bottom:100px;
+    bottom:100px;
+    width:810px;
+    background: transparent url('/assets/{{$quiz->background}}') repeat !important;
+}
+</style>
+@stop
+
 @section('content')
     <!--
     <div class="modal" id="pleaseWaitDialog"  data-backdrop="static" data-keyboard="false">
@@ -37,10 +51,8 @@
             </fieldset>--}}
             <br/>
             {{$youtube}}
-            <br/>
             {{ Form::open(array('route' => 'submitAnswer', 'class' => '', 'id' => 'form-answer')) }}
-            <fieldset id='legend-info'>
-              <legend>BƯỚC 2: ĐIỀN ĐẦY ĐỦ THÔNG TIN VÀO FORM SAU</legend>
+            <div>
               <div class="form-group required {{ $errors->has('fullname') ? 'has-error' : '' }}">
                 <label for="fullname" class="control-label">Họ tên</label>
                 <!-- <div class="col-lg-10"> -->
@@ -69,14 +81,39 @@
                   {{ Form::errorMsg('phone') }}
                 <!-- </div> -->
               </div>
+              @if($question->question_type_id == 1)
               <div class="form-group required {{ $errors->has('answer') ? 'has-error' : '' }}">
                 <label for="answer" class="control-label">{{$question->question}}</label>
                 <input type="text" class="form-control" id="answer" name="answer" placeholder="Trả lời" value="{{Input::old('answer')}}">
                 {{ Form::errorMsg('answer') }}
               </div>
+              @else
+                <?php
+                    $tmps = explode(':', $question->question);
+                    $options = explode(';', $tmps[1]);
+                 ?>
+                <div class="form-group required { $errors->has('answer') ? 'has-error' : '' }}">
+                  <label class="control-label">{{$tmps[0]}}</label>
+                  <div class="">
+                    <?php
+                        $sHTML = '';
+                        $idx = 1;
+                        $checked = "";
+                        foreach ($options as $option) {
+                            if ($option == Input::old('answer')) $checked = 'checked=""';
+                            $sHTML = $sHTML.'<div class="radio"><label><input type="radio" name="answer" id="optionsRadios'.$idx.'" value="'.$option.'" '. $checked .'>'.$option.'</label></div>';
+                            $idx++;
+                            $checked = "";
+                        }
+                        echo $sHTML;
+                    ?>
+                  </div>
+                  {{ Form::errorMsg('answer') }}
+                </div>
+              @endif
               <div class="form-group required">
-                <!-- <label class="col-md-0 control-label">&#160;</label> -->
-                <div class="col-md-7">
+                <label class="col-md-0 control-label"></label>
+                <div class="col-lg-7">
 
                   <div class="checkbox">
                     <label><input class="" id="term-accept" name="term-accept" type="checkbox" />
@@ -86,23 +123,27 @@
                 </div>
 
               </div>
-            </fieldset>
+
+            <div class="form-group">
+                <label class="control-label"></label>
+                <div class="col-lg-7">
+                 <button id="button-submit-answer" type="submit" class="btn btn-primary">Tham gia</button>
+                </div>
+            </div>
             <input type="hidden" name="userId"  id="userId" value="{{$userId}}">
             <input type="hidden" name="questionId" id="questionId" value="{{$question->id}}">
-            <div class="form-group">
-              <div class="col-lg-offset-5">
-                <button id="button-submit-answer" type="submit" class="btn btn-primary">Tham gia</button>
-              </div>
-            </div>
             {{ Form::close() }}
-
-            <p>
+            <br>
+            <div class="form-group">
+              <label class="control-label"></label>
               {{ $quiz->privacy }}
-            </p>
-            <fieldset id='legend-term'>
-              <legend>THỂ LỆ & ĐIỀU KHOẢN CHƯƠNG TRÌNH</legend>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label"></label>
               {{ $quiz->term }}
-            </fieldset>
+            </div>
+        </div>
         </div>
         <div class="tab-pane fade" id="profile">
             <table class="table table-striped table-hover " id="invitations">

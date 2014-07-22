@@ -25,6 +25,7 @@ class CreateQuizsTable extends Migration {
             $table->string('title');
             $table->string('description');
             $table->string('banner');
+            $table->string('background');
             $table->string('privacy');
             $table->string('term');
             $table->integer('status')->default(0);
@@ -36,7 +37,7 @@ class CreateQuizsTable extends Migration {
             $table->increments('id')->unsigned();
             $table->string('name');
             $table->integer('quiz_id')->unsigned();
-            $table->timestamp('start_time');
+            $table->string('start_time');
             $table->integer('interval');
             $table->integer('status');
             $table->timestamps();

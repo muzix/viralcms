@@ -12,4 +12,8 @@ class Quiz extends \Eloquent {
     public function questions() {
 		return $this->hasMany('QuizQuestion', 'quiz_id', 'id');
 	}
+
+    public function schedule() {
+        return $this->hasOne('QuizSchedule', 'quiz_id', 'id');
+    }
 }

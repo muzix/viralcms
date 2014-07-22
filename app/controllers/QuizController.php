@@ -7,13 +7,17 @@ class QuizController extends \BaseController {
             'title' => array('required'),
             'description'    => array('required'),
             'banner' => 'image|mimes:jpeg,png,jpg|max:3000',
+            'background' => 'image|mimes:jpeg,png,jpg|max:3000',
         );
 
         $messages = array(
             'required' => 'Phần :attribute không được để trống.',
             'banner.image' => 'Hãy chọn file ảnh định dạng jpg hoặc png.',
             'banner.mimes' => 'Hãy chọn file ảnh định dạng jpg hoặc png.',
-            'banner.max' => 'Kích thước file ảnh không được vượt quá 3MB.'
+            'banner.max' => 'Kích thước file ảnh không được vượt quá 3MB.',
+            'background.image' => 'Hãy chọn file ảnh định dạng jpg hoặc png.',
+            'background.mimes' => 'Hãy chọn file ảnh định dạng jpg hoặc png.',
+            'background.max' => 'Kích thước file ảnh không được vượt quá 3MB.'
         );
 
         $validation = Validator::make(Input::all(), $rules, $messages);
@@ -41,14 +45,38 @@ class QuizController extends \BaseController {
             $uploadSuccess = true;
         }
 
-        if( $uploadSuccess ) {
+        // receive background image
+        $file = Input::file('background'); // your file upload input field in the form should be named 'file'
+        $uploadBackground = false;
+        if ($file) {
+            $destinationPath = app_path().'/assets/uploads/admin/quiz-contest/';
+            // $filename = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension(); //if you need extension of the file
+            $filenameBG = uniqid().'.'.$extension;
+            $uploadBackground = Input::file('background')->move($destinationPath, $filenameBG);
+        } else {
+            $filenameBG = '';
+            $uploadBackground = true;
+        }
+
+        if( $uploadSuccess && $uploadBackground ) {
             $newQuiz = new Quiz;
             $newQuiz->title = Input::get('title');
             $newQuiz->description = Input::get('description');
             $newQuiz->privacy = Input::get('privacy');
             $newQuiz->term = Input::get('term');
             $newQuiz->banner = $filename;
+            $newQuiz->background = $filenameBG;
             $newQuiz->save();
+
+            $schedule = new QuizSchedule;
+            $schedule->name = $newQuiz->title;
+            $schedule->start_time = Input::get('schedule');
+            $schedule->interval = 24;
+            $schedule->status = 1;
+            $schedule->quiz_id = $newQuiz->id;
+            $schedule->save();
+
             return Redirect::to('admin/quiz-contest/');
         }
 
@@ -65,7 +93,8 @@ class QuizController extends \BaseController {
 
     public function getEdit($quizId) {
         $quiz = Quiz::find($quizId);
-        return View::make('admin.quiz.quiz-edit')->with(array('quiz' => $quiz));
+        $schedule = QuizSchedule::where('quiz_id', $quizId)->get()->first();
+        return View::make('admin.quiz.quiz-edit')->with(array('quiz' => $quiz, 'schedule' => $schedule));
     }
 
     public function edit() {
@@ -113,19 +142,59 @@ class QuizController extends \BaseController {
             $filename = $quiz->banner;
         }
 
+        // receive background image
+        $file = Input::file('background'); // your file upload input field in the form should be named 'file'
+        $uploadBackground = false;
+        if ($file) {
+            $destinationPath = app_path().'/assets/uploads/admin/quiz-contest/';
+            // $filename = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension(); //if you need extension of the file
+            $filenameBG = uniqid().'.'.$extension;
+            $uploadBackground = Input::file('background')->move($destinationPath, $filenameBG);
+            if ($uploadBackground == null) {
+                $filenameBG = $quiz->background;
+            }
+        } else {
+            $filenameBG = $quiz->background;
+        }
+
         $quiz->title = Input::get('title');
         $quiz->description = Input::get('description');
         $quiz->privacy = Input::get('privacy');
         $quiz->term = Input::get('term');
         $quiz->banner = $filename;
+        $quiz->background = $filenameBG;
         $quiz->save();
+
+        // update schedule
+        $schedule = QuizSchedule::where('quiz_id', $quiz->id)->get()->first();
+        //var_dump($schedule);return;
+        if ($schedule) {
+            //
+            $schedule->name = $quiz->title;
+            $schedule->start_time = Input::get('schedule');
+            $schedule->interval = 24;
+            $schedule->status = 1;
+            $schedule->quiz_id = $quiz->id;
+            $schedule->save();
+        } else {
+            $schedule = new QuizSchedule;
+            $schedule->name = $quiz->title;
+            $schedule->start_time = Input::get('schedule');
+            $schedule->interval = 24;
+            $schedule->status = 1;
+            $schedule->quiz_id = $quiz->id;
+            $schedule->save();
+        }
+
+
         return Redirect::to('admin/quiz-contest/');
 
 
     }
 
     public function getList() {
-        $quizs = Quiz::with('questions')->get();
+        $quizs = Quiz::with(array('questions', 'schedule'))->get();
         return View::make('admin.quiz.quiz-list')->with(array("quizs"=>$quizs));
     }
 

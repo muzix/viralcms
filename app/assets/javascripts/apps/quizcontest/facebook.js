@@ -17,15 +17,19 @@ function doGetInfo() {
         xfbml: true, // parse XFBML
         frictionlessRequests: true
     });
-
     FB.Canvas.setAutoGrow();
-
+    // FB.Canvas.setSize({
+    //     height: 5000
+    // });
+    console.log("DONE");
 }
 
 
 var isLoaded = false;
 
 function loadFacebookInfo() {
+    console.log("loadFacebookInfo");
+
     //alert(title);
     if (isLoaded) {
         doGetInfo();
@@ -44,6 +48,9 @@ function loadFacebookInfo() {
 
         window.fbAsyncInit = function() {
             isLoaded = true;
+            console.log("SetSize");
+            //FB.Canvas.setAutoGrow();
+            //FB.Canvas.setSize();
             doGetInfo();
         };
     }

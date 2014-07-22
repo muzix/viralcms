@@ -41,6 +41,10 @@ function doGetInfo() {
         frictionlessRequests: true
     });
 
+    // FB.Canvas.setSize({
+    //     height: 3500
+    // });
+
     // Additional initialization code here
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {

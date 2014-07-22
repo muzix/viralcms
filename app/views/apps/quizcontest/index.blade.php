@@ -1,4 +1,4 @@
-@extends('master')
+@extends('apps.quizcontest.master')
 
 @section('css_tag')
 <style>

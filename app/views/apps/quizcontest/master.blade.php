@@ -5,6 +5,10 @@
 		<?= stylesheet_link_tag('apps/quizcontest/application') ?>
         <?= javascript_include_tag('apps/quizcontest/application') ?>
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        @section('css_tag')
+
+        @stop
+        @yield('css_tag')
 	</head>
     <body>
         <div id="wrapper">

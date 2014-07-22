@@ -12,7 +12,10 @@ return array(
 	| that are included on basically every request into the application.
 	|
 	*/
-
-
-
+    /*
+    'app/controllers/QuizController.php',
+    'app/controllers/QuestionController.php',
+    'app/controllers/AppController.php',
+    'app/controllers/AnswerController.php',
+    'app/controllers/UserController.php',*/
 );

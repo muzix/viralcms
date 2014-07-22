@@ -9,7 +9,7 @@ div#wrapper {
     padding-bottom:100px;
     bottom:100px;
     width:810px;
-    background: transparent url('/assets/{{$quiz->background}}') repeat !important;
+    background: transparent url('{{{url('/assets/'.$quiz->background)}}}') repeat !important;
 }
 </style>
 @stop

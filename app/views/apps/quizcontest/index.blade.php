@@ -16,7 +16,7 @@
         </div>
     </div>
 -->
-    <div class="banner-image"><img alt="Quiz Banner" width="800" src="/viralcms/public/assets/{{$quiz->banner}}" onerror="this.src = '/viralcms/public/assets/banner.png';"></img></div>
+    <div class="banner-image"><img alt="Quiz Banner" width="800" src="{{{url('/assets/'.$quiz->banner)}}}" onerror="this.src = '{{{url('/assets/banner.jpg')}}}';"></img></div>
     <!--
     <ul class="nav nav-tabs" style="margin-bottom: 15px;">
       <li class="active"><a href="#home" data-toggle="tab">Nội dung sự kiện</a></li>
@@ -29,46 +29,48 @@
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade active in" id="home">
             {{$quiz->description}}
-            <fieldset id='legend-youtube'>
+            {{--<fieldset id='legend-youtube'>
               <legend>BƯỚC 1: XEM ĐOẠN VIDEO DƯỚI ĐÂY</legend>
               <div id="quiz-video">
                 <iframe width="640" height="360" src="//www.youtube.com/embed/{{$youtube}}" frameborder="0" allowfullscreen></iframe>
               </div>
-            </fieldset>
+            </fieldset>--}}
+            <br/>
+            {{$youtube}}
             <br/>
             {{ Form::open(array('route' => 'submitAnswer', 'class' => '', 'id' => 'form-answer')) }}
             <fieldset id='legend-info'>
               <legend>BƯỚC 2: ĐIỀN ĐẦY ĐỦ THÔNG TIN VÀO FORM SAU</legend>
               <div class="form-group required {{ $errors->has('fullname') ? 'has-error' : '' }}">
-                <label for="fullname" class="col-lg-10 control-label">Họ tên</label>
+                <label for="fullname" class="control-label">Họ tên</label>
                 <!-- <div class="col-lg-10"> -->
                   <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Họ tên" value="{{Input::old('fullname')}}">
                   {{ Form::errorMsg('fullname') }}
                 <!-- </div> -->
               </div>
               <div class="form-group required {{ $errors->has('email') ? 'has-error' : '' }}">
-                <label for="email" class="col-lg-10 control-label">Email</label>
+                <label for="email" class="control-label">Email</label>
                 <!-- <div class="col-lg-10"> -->
                   <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="{{Input::old('email')}}">
                   {{ Form::errorMsg('email') }}
                 <!-- </div> -->
               </div>
               <div class="form-group required {{ $errors->has('address') ? 'has-error' : '' }}">
-                <label for="address" class="col-lg-10 control-label">Địa chỉ</label>
+                <label for="address" class="control-label">Địa chỉ</label>
                 <!-- <div class="col-lg-10"> -->
                   <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ" value="{{Input::old('address')}}">
                   {{ Form::errorMsg('address') }}
                 <!-- </div> -->
               </div>
               <div class="form-group required {{ $errors->has('phone') ? 'has-error' : '' }}">
-                <label for="phone" class="col-lg-10 control-label">Điện thoại</label>
+                <label for="phone" class="control-label">Điện thoại</label>
                 <!-- <div class="col-lg-10"> -->
                   <input type="text" class="form-control" id="phone" name="phone" placeholder="Điện thoại" value="{{Input::old('phone')}}">
                   {{ Form::errorMsg('phone') }}
                 <!-- </div> -->
               </div>
               <div class="form-group required {{ $errors->has('answer') ? 'has-error' : '' }}">
-                <label for="answer" class="col-lg-10 control-label">{{$question->question}}</label>
+                <label for="answer" class="control-label">{{$question->question}}</label>
                 <input type="text" class="form-control" id="answer" name="answer" placeholder="Trả lời" value="{{Input::old('answer')}}">
                 {{ Form::errorMsg('answer') }}
               </div>

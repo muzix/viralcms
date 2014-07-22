@@ -56,6 +56,7 @@ class CreateQuizsTable extends Migration {
             $table->string('answer');
             $table->integer('priority');
             $table->integer('status');
+            $table->timestamp('unlocked_at');
             $table->timestamps();
             $table->foreign('quiz_id')->references('id')->on('quizs');
             $table->foreign('question_type_id')->references('id')->on('quiz_question_type');

@@ -345,6 +345,10 @@ QuestionEdit = function() {
             focus: false,
         };
         $('#summernote-youtube').summernote(config);
+
+        $('button#button-edit-question').click(function(e) {
+            $('textarea#youtube').html($('#summernote-youtube').code());
+        });
     }
 
     function checkVideoExists(videoId) {

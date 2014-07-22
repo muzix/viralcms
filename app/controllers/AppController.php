@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Carbon\Carbon;
 
 class AppController extends \Controller {
 
@@ -85,8 +86,39 @@ class AppController extends \Controller {
 
             // get current active question
             $question = QuizQuestion::where('quiz_id', $quiz->id)->where('status', 1)->orderBy('priority')->get()->first();
+            // If no question active then check for all available question for this quiz
             if (!$question) {
-                return Response::make('Not Found', 404);
+                $question = QuizQuestion::where('quiz_id', $quiz->id)->orderBy('priority')->get()->first();
+                if (!$question) {
+                    return Response::make('Not Found', 404);
+                } else {
+                    // make new question active
+                    $question->status = 1;
+                    $question->unlocked_at = Carbon::now();
+                    $question->save();
+                }
+            } else {
+                // check for unlocked_time
+                
+                $timeUnlocked = new Carbon($question->unlocked_at, 'Asia/Ho_Chi_Minh');
+                //var_dump($timeUnlocked);return;
+                $now = Carbon::now();
+                //var_dump($now);return;
+                $timeExist = $now->diffInMinutes($timeUnlocked); 
+                //var_dump($timeExist);return;
+                if ($timeExist >= 60*24) {
+                    $question->status = 0;
+                    $question->save();
+                    $question = QuizQuestion::where('quiz_id', $quiz->id)->where('status', 0)->orderBy('priority')->get()->first();
+                    if (!$question) {
+                        return Response::make('Not Found', 404);
+                    } else {
+                        // make new question active
+                        $question->status = 1;
+                        $question->unlocked_at = Carbon::now();
+                        $question->save();
+                    }
+                }
             }
 
             $answer = UserAnswer::where('user_id', $user->id)->where('question_id', $question->id)->get()->first();

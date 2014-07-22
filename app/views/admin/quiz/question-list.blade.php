@@ -19,7 +19,14 @@
 @stop
 
 @section('content')
-
+<?php
+    function truncateField($string) {
+        if (strlen($string) > 10) {
+            $string = substr($string, 0, 10) . "...";
+        }
+        return $string;
+    }
+?>
 @if (count($quizs[0]->questions) > 0)
     <p><button data-quiz="{{ $quizs[0]->id }}" id="button-create-question" type="button" class="btn btn-primary">Tạo câu hỏi</button></p>
     <div id='table-questions' class='col-lg-12'>
@@ -41,7 +48,7 @@
             @foreach ($quizs[0]->questions as $question)
             <tr>
                 <td>{{$count}}</td>
-                <td>{{$question->questionAttributes[0]->content}}</td>
+                <td><?php echo truncateField($question->questionAttributes[0]->content) ?></td>
                 <td>{{$question->question}}</td>
                 <td>{{$question->answer}}</td>
                 <td>{{$question->priority}}</td>

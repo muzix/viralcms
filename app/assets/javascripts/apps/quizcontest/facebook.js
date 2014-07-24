@@ -2,8 +2,8 @@
 FacebookLoad = $.Deferred();
 
 
-var basepath = "//tibu.tk/viralcms/public/";
-var scorepath = "//tibu.tk/viralcms/public/";
+var basepath = "//viralitycms.com/";
+var scorepath = "//viralitycms.com/";
 var secret = "60176de80913eaeb5eaba70f79c8fe39";
 
 

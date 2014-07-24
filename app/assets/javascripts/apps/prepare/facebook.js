@@ -2,8 +2,8 @@
 FacebookLoad = $.Deferred();
 
 
-var basepath = "//tibu.tk/viralcms/public/";
-var scorepath = "//tibu.tk/viralcms/public/";
+var basepath = "//viralitycms.com/";
+var scorepath = "//viralitycms.com/";
 //var basepath = "//test.secure.dev/";
 //var scorepath = "//test.secure.dev/";
 var secret = "60176de80913eaeb5eaba70f79c8fe39";
@@ -120,7 +120,7 @@ function submitUserInfo(uid, username, name, first, middle, last, birthday, home
         success: function(data, textStatus, jqXHR) {
             //alert(JSON.stringify(data));
             //$('#pleaseWaitDialog').modal('hide');
-            window.location.href = "/viralcms/public/quiz-contest?userId=" + data.userId;
+            window.location.href = basepath + "quiz-contest?userId=" + data.userId;
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('Server quá tải, xin bạn vui lòng thử lại');

@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'muzix_viralcms',
-			'username'  => 'muzix_viralcms',
-			'password'  => 'g@l@xy',
+			'database'  => 'glx_viralitycms',
+			'username'  => 'root',
+			'password'  => 'vtvc@b',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => 'glx_',

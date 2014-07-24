@@ -28,7 +28,7 @@ class QuestionController extends \BaseController {
     public function create() {
 
         $questionType = Input::get('question-type');
-        $rule;
+        $rule = array();
 
         if ($questionType == 'text') {
             $rules = array(

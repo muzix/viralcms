@@ -21,6 +21,10 @@ class QuizQuestionAttrTypeTableSeeder extends Seeder {
             array(
                 "id" => 1,
                 "name" => "text",
+            ),
+            array(
+                "id" => 2,
+                "name" => "choice",
             )
         );
 

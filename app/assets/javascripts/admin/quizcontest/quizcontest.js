@@ -369,6 +369,10 @@ QuestionEdit = function() {
         $('button#button-edit-question').click(function(e) {
             $('textarea#youtube').html($('#summernote-youtube').code());
         });
+
+        $('button#button-preview-question').click(function(e) {
+            $('textarea#youtube').html($('#summernote-youtube').code());
+        });
     }
 
     function checkVideoExists(videoId) {

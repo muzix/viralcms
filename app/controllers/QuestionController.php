@@ -122,6 +122,31 @@ class QuestionController extends \BaseController {
     }
 
     public function edit() {
+        if (isset($_POST['edit-question'])) {
+            //return "EDIT";
+            return $this->submitEdit();
+        }
+
+        if (isset($_POST['preview-question'])) {
+            //return "PREVIEW";
+            return $this->preview();
+        }
+    }
+
+    public function delete() {
+        $questionId = Input::get('questionId');
+
+        // Find all questionAttribute and destroy
+        $questionAttributes = QuizQuestionAttribute::where('quiz_question_id', $questionId)->delete();
+
+        $question = QuizQuestion::find($questionId);
+        $quizId = $question->quiz_id;
+        $question->delete();
+        $redirect = route('listQuestion', array('quizId' => $quizId));
+        return Redirect::to($redirect);
+    }
+
+    public function submitEdit() {
         $questionId = Input::get('questionId');
         $question = QuizQuestion::find($questionId);
 
@@ -157,16 +182,37 @@ class QuestionController extends \BaseController {
         return Redirect::to($redirect);
     }
 
-    public function delete() {
+    public function preview() {
         $questionId = Input::get('questionId');
-
-        // Find all questionAttribute and destroy
-        $questionAttributes = QuizQuestionAttribute::where('quiz_question_id', $questionId)->delete();
-
         $question = QuizQuestion::find($questionId);
-        $quizId = $question->quiz_id;
-        $question->delete();
-        $redirect = route('listQuestion', array('quizId' => $quizId));
-        return Redirect::to($redirect);
+
+        $rules = array(
+            'youtube' => array('required'),
+            'question'    => array('required'),
+            'answer' => array('required'),
+        );
+
+        $messages = array(
+            'required' => 'Phần :attribute không được để trống.'
+        );
+
+        $validation = Validator::make(Input::all(), $rules, $messages);
+
+        if ($validation->fails())
+        {
+            // Validation has failed.
+            Input::flashOnly('youtube', 'question', 'answer');
+            return Redirect::to('admin/quiz-contest/question/edit/'.$questionId)->withErrors($validation);
+        }
+
+        // Validation has succeeded. Preview question
+        $quiz = Quiz::find($question->quiz_id);
+        //$youtube = Input::get('youtube');
+        //printf(htmlentities($youtube));
+        $question->question = Input::get('question');
+        $question->answer = Input::get('answer');
+        $questionAttribute = QuizQuestionAttribute::where('quiz_question_id', '=', $question->id)->firstOrFail();
+        $questionAttribute->content = Input::get('youtube');
+        return Response::view('admin.quiz.question-preview', array('quiz' => $quiz, 'question' => $question, 'youtube' => $questionAttribute->content, 'userId' => -1))->header('X-XSS-Protection', 0);
     }
 }

@@ -39,6 +39,7 @@
           <label for="question" class="col-lg-2 control-label">Câu hỏi</label>
           <div class="col-lg-10">
             <textarea class="form-control" rows="3" id="question" name="question">{{ $question->question }}</textarea>
+            <span class="help-block">Loại câu hỏi nhiều lựa chọn được hiển thị theo định dạng: quesion:option-1;option-2;option-3 ... ;option-n</span>
             {{ Form::errorMsg('question') }}
           </div>
         </div>
@@ -46,13 +47,15 @@
           <label for="answer" class="col-lg-2 control-label">Đáp án</label>
           <div class="col-lg-10">
             <input type="text" class="form-control" id="answer" name="answer" placeholder="Đáp án" value="{{ $question->answer }}">
+            <span class="help-block">Nếu là câu hỏi dạng nhiều lựa chọn, đáp án phải trùng với một trong các option.</span>
             {{ Form::errorMsg('answer') }}
           </div>
         </div>
         <input type='hidden' name="questionId" value="{{ $question->id }}">
         <div class="form-group">
-          <div class="col-lg-10 col-lg-offset-2">
-            <button id="button-edit-question" type="submit" class="btn btn-primary">CẬP NHẬT</button>
+          <div class="col-lg-5 col-lg-offset-2">
+            <button id="button-edit-question" type="submit" name="edit-question" value="edit-question" class="btn btn-primary">CẬP NHẬT</button>
+            <button id="button-preview-question" type="submit" name="preview-question" value="preview-qeustion" class="btn btn-primary">XEM TRƯỚC</button>
           </div>
         </div>
       </fieldset>

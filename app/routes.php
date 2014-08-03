@@ -135,16 +135,18 @@ Route::post('pre-quiz', 'AppController@prepareInfo');
 Route::get('quiz-contest/app',              'AppController@getQuizContestApp');
 Route::post('quiz-contest/app',              'AppController@getQuizContestApp');
 
+Route::post('admin/quiz-contest/question/edit', array('as' => 'editQuestion', 'uses' => 'QuestionController@edit'));
 Route::group(array('before' => 'csrf'), function() {
     Route::post('admin/quiz-contest/quiz/create', array('as' => 'createQuiz', 'uses' => 'QuizController@create'));
     Route::post('admin/quiz-contest/quiz/delete', array('as' => 'deleteQuiz', 'uses' => 'QuizController@delete'));
     Route::post('admin/quiz-contest/quiz/edit', array('as' => 'editQuiz', 'uses' => 'QuizController@edit'));
     Route::post('admin/quiz-contest/question/create', array('as' => 'createQuestion', 'uses' => 'QuestionController@create'));
-    Route::post('admin/quiz-contest/question/edit', array('as' => 'editQuestion', 'uses' => 'QuestionController@edit'));
+
     Route::post('admin/quiz-contest/question/delete', array('as' => 'deleteQuestion', 'uses' => 'QuestionController@delete'));
     Route::post('quiz-contest/answer', array('as' => 'submitAnswer', 'uses' => 'AnswerController@answer'));
     Route::post('quiz-contest/quiz/lock', array('as' => 'lockQuiz', 'uses' => 'QuizController@lock'));
     Route::post('quiz-contest/quiz/unlock', array('as' => 'unlockQuiz', 'uses' => 'QuizController@unlock'));
+    Route::post('quiz-contest/question/preview', array('as' => 'previewQuestion', 'uses' => 'QuestionController@preview'));
     //Route::get('invitation/create/', 'StackController@create');
 });
 

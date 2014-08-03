@@ -51,7 +51,7 @@ div#wrapper {
             </fieldset>--}}
             <br/>
             {{$youtube}}
-            {{ Form::open(array('route' => 'submitAnswer', 'class' => '', 'id' => 'form-answer')) }}
+            {{-- Form::open(array('route' => 'submitAnswer', 'class' => '', 'id' => 'form-answer')) --}}
             <div>
               <div class="form-group required {{ $errors->has('fullname') ? 'has-error' : '' }}">
                 <label for="fullname" class="control-label">Họ tên</label>
@@ -92,6 +92,7 @@ div#wrapper {
               </div>
               @else
                 <?php
+                    //$tmps = explode(':', $question->question);
                     $options = explode(';', $tmps[1]);
                  ?>
                 <div class="form-group required { $errors->has('answer') ? 'has-error' : '' }}">
@@ -129,12 +130,12 @@ div#wrapper {
             <div class="form-group">
                 <label class="control-label"></label>
                 <div class="col-lg-7">
-                 <button id="button-submit-answer" type="submit" class="btn btn-primary">Tham gia</button>
+                 <button id="button-submit-answer-preview" class="btn btn-primary">Tham gia</button>
                 </div>
             </div>
             <input type="hidden" name="userId"  id="userId" value="{{$userId}}">
             <input type="hidden" name="questionId" id="questionId" value="{{$question->id}}">
-            {{ Form::close() }}
+            {{-- Form::close() --}}
             <br>
             <div class="form-group">
               <label class="control-label"></label>

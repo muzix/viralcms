@@ -134,9 +134,12 @@ QuizCreate = function() {
 
         var sHTML = '<fieldset><legend>HEADER HERE!</legend><div>BODY CONTENT HERE!</div></fieldset>';
 
-        if ($('#summernote-description').html() === '') $('#summernote-description').code(sHTML);
-        if ($('#summernote-privacy').html() === '') $('#summernote-privacy').code(sHTML);
-        if ($('#summernote-term').html() === '') $('#summernote-term').code(sHTML);
+        if ($('#description').html() === '') $('#summernote-description').code(sHTML);
+        else $('#summernote-description').code($('#description').val());
+        if ($('#privacy').html() === '') $('#summernote-privacy').code(sHTML);
+        else $('#summernote-privacy').code($('#privacy').val());
+        if ($('#term').html() === '') $('#summernote-term').code(sHTML);
+        else $('#summernote-term').code($('#term').val());
 
         $('button#button-create-quiz').click(function(e) {
             //log($('#summernote-description').code());

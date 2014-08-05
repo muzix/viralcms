@@ -6,8 +6,8 @@ div#wrapper {
     position:relative;
     margin-left:auto;
     margin-right:auto;
-    padding-bottom:100px;
-    bottom:100px;
+    padding-bottom:0;
+    bottom:0;
     width:810px;
     background: transparent url('{{{url('/assets/'.$quiz->background)}}}') repeat !important;
 }
@@ -30,7 +30,7 @@ div#wrapper {
         </div>
     </div>
 -->
-    <div class="banner-image"><img alt="Quiz Banner" width="800" src="{{{url('/assets/'.$quiz->banner)}}}" onerror="this.src = '{{{url('/assets/banner.jpg')}}}';"></img></div>
+    <div class="banner-image"><img alt="Quiz Banner" width="810" src="{{{url('/assets/'.$quiz->banner)}}}" onerror="this.src = '{{{url('/assets/banner.jpg')}}}';"></img></div>
     <!--
     <ul class="nav nav-tabs" style="margin-bottom: 15px;">
       <li class="active"><a href="#home" data-toggle="tab">Nội dung sự kiện</a></li>
@@ -38,8 +38,6 @@ div#wrapper {
       <li class=""><a href="#rank" data-toggle="tab">Bảng xếp hạng</a></li>
     </ul>
   -->
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
     <div id='content-wrapper'>
 
     <div id="myTabContent" class="tab-content">
@@ -138,8 +136,6 @@ div#wrapper {
             <input type="hidden" name="userId"  id="userId" value="{{$userId}}">
             <input type="hidden" name="questionId" id="questionId" value="{{$question->id}}">
             {{-- Form::close() --}}
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
             <p>&nbsp;</p>
             <div class="form-group">
               <label class="control-label"></label>

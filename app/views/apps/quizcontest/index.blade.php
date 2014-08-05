@@ -30,7 +30,7 @@ div#wrapper {
         </div>
     </div>
 -->
-    <div class="banner-image"><img alt="Quiz Banner" width="800" src="{{{url('/assets/'.$quiz->banner)}}}" onerror="this.src = '{{{url('/assets/banner.jpg')}}}';"></img></div>
+    <div class="banner-image"><img alt="Quiz Banner" width="810" src="{{{url('/assets/'.$quiz->banner)}}}" onerror="this.src = '{{{url('/assets/banner.jpg')}}}';"></img></div>
     <!--
     <ul class="nav nav-tabs" style="margin-bottom: 15px;">
       <li class="active"><a href="#home" data-toggle="tab">Nội dung sự kiện</a></li>

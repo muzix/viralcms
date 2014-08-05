@@ -24,7 +24,7 @@ div#content-wrapper {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
-    height: 400px;
+    /*height: 400px;*/
     min-width: 810px;
 }
 

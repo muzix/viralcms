@@ -137,6 +137,7 @@ div#wrapper {
             <input type="hidden" name="questionId" id="questionId" value="{{$question->id}}">
             {{-- Form::close() --}}
             <p>&nbsp;</p>
+            <p>&nbsp;</p>
             <div class="form-group">
               <label class="control-label"></label>
               {{ $quiz->privacy }}

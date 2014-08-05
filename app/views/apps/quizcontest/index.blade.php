@@ -6,8 +6,8 @@ div#wrapper {
     position:relative;
     margin-left:auto;
     margin-right:auto;
-    padding-bottom:100px;
-    bottom:100px;
+    padding-bottom:0;
+    bottom:0;
     width:810px;
     background: transparent url('{{{url('/assets/'.$quiz->background)}}}') repeat !important;
 }

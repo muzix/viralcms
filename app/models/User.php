@@ -30,4 +30,8 @@ class User extends ConfideUser {
 	    return 'remember_token';
 	}
 
+    public function userProfile() {
+        return $this->hasOne('UserProfile', 'user_id', 'id');
+    }
+
 }

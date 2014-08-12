@@ -73,7 +73,7 @@ class AnswerController extends \BaseController {
             return Response::make('Not Found', 404);
         }
 
-        $answers = UserAnswer::with('user')->where('question_id', $questionId)->get();
+        $answers = UserAnswer::with('user.userProfile')->where('question_id', $questionId)->get();
         return View::make('admin.quiz.answer-list')->with(array('answers' => $answers));
     }
 

@@ -27,6 +27,7 @@
               <th>#</th>
               <th>Người chơi</th>
               <th>Email</th>
+              <th>Phone</th>
               <th>Trả lời</th>
               <th>Thời gian</th>
               <th>Thao tác</th>
@@ -39,6 +40,7 @@
                 <td>{{$count}}</td>
                 <td>{{$answer->user->fullname}}</td>
                 <td>{{$answer->user->email}}</td>
+                <td>{{$answer->user->userProfile->phone}}</td>
                 <td>{{$answer->answer}}</td>
                 <td>{{$answer->updated_at}}</td>
                 <td></td>
